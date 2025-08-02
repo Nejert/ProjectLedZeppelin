@@ -13,12 +13,18 @@ import java.sql.*;
 public class DB {
     private static final String FILE_NAME = "quest";
     private static final String DB_EXTENSION = ".mv.db";
-    private static final String DEFAULT_SCRIPT_NAME = "initJRQuestDB.sql";
+    private static final String INIT_QUESTS_SCHEMA_SQL = "initQuestsSchema.sql";
+    private static final String INIT_USERS_SCHEMA_SQL = "initUsersSchema.sql";
     private static volatile DB instance;
     private final String jdbcUrl;
     private final Path dbPath;
 
     private DB() {
+        try {
+            Class.forName("org.h2.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         try {
             dbPath = Path.of(DB.class.getProtectionDomain().getCodeSource().getLocation().toURI())
                     .resolve(FILE_NAME + DB_EXTENSION);
@@ -28,18 +34,20 @@ public class DB {
         }
     }
 
-    private void generateDefaultDB(String scriptName) {
+    private void generateDefaultDB(String... scriptName) {
         Path scriptPath = null;
-        try {
-            scriptPath = Path.of(DB.class.getProtectionDomain().getCodeSource().getLocation().toURI()).resolve(scriptName);
-        } catch (URISyntaxException e) {
-            throw new QuestException("Unable to find script " + scriptName, e);
-        }
-        try (Connection connection = getConnection()) {
-            String sql = Files.readString(scriptPath);
-            connection.createStatement().execute(sql);
-        } catch (IOException | SQLException e) {
-            throw new QuestException("Unable to read default SQL script", e);
+        for (String script : scriptName) {
+            try {
+                scriptPath = Path.of(DB.class.getProtectionDomain().getCodeSource().getLocation().toURI()).resolve(script);
+            } catch (URISyntaxException e) {
+                throw new QuestException("Unable to find script " + script, e);
+            }
+            try (Connection connection = getConnection()) {
+                String sql = Files.readString(scriptPath);
+                connection.createStatement().execute(sql);
+            } catch (IOException | SQLException e) {
+                throw new QuestException("Unable to read default SQL script", e);
+            }
         }
     }
 
@@ -49,7 +57,7 @@ public class DB {
                 if (instance == null) {
                     instance = new DB();
                     if (!instance.dbPath.toFile().exists()) {
-                        instance.generateDefaultDB(DEFAULT_SCRIPT_NAME);
+                        instance.generateDefaultDB(INIT_QUESTS_SCHEMA_SQL, INIT_USERS_SCHEMA_SQL);
                     }
                 }
             }

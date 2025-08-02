@@ -22,16 +22,35 @@ public class QuestReader {
     }
 
     public Quest read() {
+        String dbQuestName = getDBQuestName(questName.toLowerCase());
         Quest quest = null;
-        if (isQuestExists(questName)) {
-            quest = new Quest(questName, getQuestion(getFirstQuestionId()));
+        if (dbQuestName != null) {
+            quest = new Quest(dbQuestName, getQuestion(getFirstQuestionId(dbQuestName)));
         }
         return quest;
     }
 
+    private String getDBQuestName(String questName) {
+        String sql = """
+                SELECT TITLE FROM QUESTS.QUEST WHERE LOWER(TITLE) LIKE ?
+                """;
+        try (Connection connection = DB.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, questName);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getString("TITLE");
+            }
+            ;
+        } catch (SQLException e) {
+            throw new QuestSQLException("SQL Error at fetching db quest's name", e);
+        }
+        return null;
+    }
+
     private boolean isQuestExists(String questName) {
         String sql = """
-                SELECT ID FROM QUEST WHERE TITLE = ?
+                SELECT ID FROM QUESTS.QUEST WHERE TITLE = ?
                 """;
         try (Connection connection = DB.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -46,16 +65,16 @@ public class QuestReader {
         return true;
     }
 
-    private int getFirstQuestionId() {
+    private int getFirstQuestionId(String dbQuestName) {
         String sql = """
                 SELECT QUESTION_ID
-                FROM QUEST JOIN QUEST_FIRST_QUESTION
-                ON QUEST.ID = QUEST_FIRST_QUESTION.QUEST_ID
+                FROM QUESTS.QUEST JOIN QUESTS.QUEST_FIRST_QUESTION
+                ON QUESTS.QUEST.ID = QUESTS.QUEST_FIRST_QUESTION.QUEST_ID
                 WHERE TITLE = ?
                 """;
         try (Connection connection = DB.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, questName);
+            statement.setString(1, dbQuestName);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getInt(1);
@@ -69,7 +88,7 @@ public class QuestReader {
     private Question getQuestion(int id) {
         String sql = """
                 SELECT TITLE
-                FROM QUESTION
+                FROM QUESTS.QUESTION
                 WHERE ID = ?
                 """;
         try (Connection connection = DB.getConnection()) {
@@ -88,9 +107,9 @@ public class QuestReader {
     private List<Answer> getAnswers(int id) {
         String sql = """
                 SELECT ID, TITLE, NEXT.QUESTION_ID
-                FROM (ANSWER JOIN QUESTION_ANSWER ON ANSWER.ID = QUESTION_ANSWER.ANSWER_ID)
-                     LEFT JOIN ANSWER_NEXT_QUESTION AS NEXT ON ANSWER.ID = NEXT.ANSWER_ID
-                WHERE QUESTION_ANSWER.QUESTION_ID = ?
+                FROM (QUESTS.ANSWER JOIN QUESTS.QUESTION_ANSWER ON QUESTS.ANSWER.ID = QUESTS.QUESTION_ANSWER.ANSWER_ID)
+                     LEFT JOIN QUESTS.ANSWER_NEXT_QUESTION AS NEXT ON QUESTS.ANSWER.ID = NEXT.ANSWER_ID
+                WHERE QUESTS.QUESTION_ANSWER.QUESTION_ID = ?
                 """;
         List<Answer> answers = new ArrayList<>();
         try (Connection connection = DB.getConnection()) {
@@ -118,7 +137,7 @@ public class QuestReader {
     private Result getResult(int id) {
         String sql = """
                 SELECT TITLE
-                FROM RESULT JOIN ANSWER_RESULT
+                FROM QUESTS.RESULT JOIN QUESTS.ANSWER_RESULT
                 ON RESULT.ID = ANSWER_RESULT.RESULT_ID
                 WHERE ANSWER_ID = ?
                 """;

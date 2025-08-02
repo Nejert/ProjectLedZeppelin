@@ -32,7 +32,7 @@ public class QuestWriter {
 
     private void checkQuestExists(String questName) {
         String sql = """
-                SELECT ID FROM QUEST WHERE TITLE = ?
+                SELECT ID FROM QUESTS.QUEST WHERE TITLE = ?
                 """;
         try (Connection connection = DB.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -48,7 +48,7 @@ public class QuestWriter {
 
     private void writeQuestName(String questName) {
         String sql = """
-                INSERT INTO QUEST (TITLE)
+                INSERT INTO QUESTS.QUEST (TITLE)
                 VALUES (?);
                 """;
         try (Connection connection = DB.getConnection()) {
@@ -62,7 +62,7 @@ public class QuestWriter {
 
     private void writeQuestion(Question question) {
         String sql = """
-                INSERT INTO QUESTION (TITLE)
+                INSERT INTO QUESTS.QUESTION (TITLE)
                 VALUES (?);
                 """;
         try (Connection connection = DB.getConnection()) {
@@ -78,7 +78,7 @@ public class QuestWriter {
 
     private void writeAnswers(int questionId, List<Answer> answers) {
         String sql = """
-                INSERT INTO ANSWER(TITLE)
+                INSERT INTO QUESTS.ANSWER(TITLE)
                 VALUES (?);
                 """;
         try (Connection connection = DB.getConnection()) {
@@ -105,7 +105,7 @@ public class QuestWriter {
 
     private void writeResult(Result result) {
         String sql = """
-                INSERT INTO RESULT(TITLE)
+                INSERT INTO QUESTS.RESULT(TITLE)
                 VALUES (?);
                 """;
         try (Connection connection = DB.getConnection()) {
@@ -121,7 +121,7 @@ public class QuestWriter {
         String firstColumn = table.getColumns()[0];
         String secondColumn = table.getColumns()[1];
         String sql = """
-                INSERT INTO %s (%s, %s)
+                INSERT INTO QUESTS.%s (%s, %s)
                 VALUES (%d, %d);
                 """.formatted(table.name(), firstColumn, secondColumn,
                 first, second);
@@ -138,7 +138,7 @@ public class QuestWriter {
     private int getDBId(QuestEntity entity) {
         String className = entity.getClass().getSimpleName().toLowerCase();
         String sql = """
-                SELECT ID FROM %s WHERE TITLE = '%s'
+                SELECT ID FROM QUESTS.%s WHERE TITLE = '%s'
                 """.formatted(className, entity.getText());
         try (Connection connection = DB.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);

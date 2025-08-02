@@ -33,7 +33,7 @@ public class QuestRemover {
     }
 
     private void removeQuest(Quest targetQuest) {
-        String sql = "DELETE FROM QUEST WHERE TITLE = ?";
+        String sql = "DELETE FROM QUESTS.QUEST WHERE TITLE = ?";
         try (Connection connection = DB.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, targetQuest.getText());
@@ -44,7 +44,7 @@ public class QuestRemover {
     }
 
     private void removeQuestion(Question currentQuestion) {
-        String sql = "DELETE FROM QUESTION WHERE TITLE = ?";
+        String sql = "DELETE FROM QUESTS.QUESTION WHERE TITLE = ?";
         List<Answer> answers = currentQuestion.getAnswers();
         try (Connection connection = DB.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -57,7 +57,7 @@ public class QuestRemover {
     }
 
     private void removeAnswer(Answer answer) {
-        String sql = "DELETE FROM ANSWER WHERE TITLE = ?";
+        String sql = "DELETE FROM QUESTS.ANSWER WHERE TITLE = ?";
         try (Connection connection = DB.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, answer.getText());
@@ -73,7 +73,7 @@ public class QuestRemover {
     }
 
     private void removeResult(Result result) {
-        String sql = "DELETE FROM RESULT WHERE TITLE = ?";
+        String sql = "DELETE FROM QUESTS.RESULT WHERE TITLE = ?";
         try (Connection connection = DB.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, result.getText());
@@ -84,7 +84,7 @@ public class QuestRemover {
     }
 
     private void checkForQuest() {
-        String sql = "SELECT * FROM QUEST WHERE TITLE = ?";
+        String sql = "SELECT * FROM QUESTS.QUEST WHERE TITLE = ?";
         try (Connection connection = DB.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, questName);
