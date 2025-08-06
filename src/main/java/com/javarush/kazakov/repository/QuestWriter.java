@@ -1,10 +1,8 @@
-package com.javarush.kazakov.service;
+package com.javarush.kazakov.repository;
 
 import com.javarush.kazakov.entity.*;
 import com.javarush.kazakov.exception.QuestException;
 import com.javarush.kazakov.exception.QuestSQLException;
-import com.javarush.kazakov.repository.DB;
-import com.javarush.kazakov.repository.Table;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

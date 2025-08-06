@@ -1,9 +1,9 @@
 package com.javarush.kazakov;
 
 import com.javarush.kazakov.exception.QuestException;
-import com.javarush.kazakov.service.QuestReader;
-import com.javarush.kazakov.service.QuestRemover;
-import com.javarush.kazakov.service.QuestWriter;
+import com.javarush.kazakov.repository.QuestReader;
+import com.javarush.kazakov.repository.QuestRemover;
+import com.javarush.kazakov.repository.QuestWriter;
 import org.junit.jupiter.api.Test;
 
 import static com.javarush.kazakov.TestQuest.QUEST_NAME;

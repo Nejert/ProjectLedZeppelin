@@ -3,6 +3,7 @@ package com.javarush.kazakov.service;
 import com.javarush.kazakov.entity.Quest;
 import com.javarush.kazakov.exception.QuestSQLException;
 import com.javarush.kazakov.repository.DB;
+import com.javarush.kazakov.repository.QuestReader;
 
 import java.sql.*;
 import java.util.ArrayList;

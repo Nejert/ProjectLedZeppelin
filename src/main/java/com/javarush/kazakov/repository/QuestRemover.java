@@ -1,4 +1,4 @@
-package com.javarush.kazakov.service;
+package com.javarush.kazakov.repository;
 
 
 import com.javarush.kazakov.entity.Answer;
@@ -7,7 +7,6 @@ import com.javarush.kazakov.entity.Question;
 import com.javarush.kazakov.entity.Result;
 import com.javarush.kazakov.exception.QuestException;
 import com.javarush.kazakov.exception.QuestSQLException;
-import com.javarush.kazakov.repository.DB;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

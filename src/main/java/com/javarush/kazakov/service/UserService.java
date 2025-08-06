@@ -1,6 +1,5 @@
 package com.javarush.kazakov.service;
 
-import com.javarush.kazakov.entity.Quest;
 import com.javarush.kazakov.entity.User;
 import com.javarush.kazakov.entity.UserRole;
 import com.javarush.kazakov.exception.QuestException;

@@ -6,8 +6,8 @@ import com.javarush.kazakov.entity.Question;
 import com.javarush.kazakov.entity.Result;
 import com.javarush.kazakov.exception.QuestException;
 import com.javarush.kazakov.repository.DB;
-import com.javarush.kazakov.service.QuestReader;
-import com.javarush.kazakov.service.QuestWriter;
+import com.javarush.kazakov.repository.QuestReader;
+import com.javarush.kazakov.repository.QuestWriter;
 import org.junit.jupiter.api.*;
 
 

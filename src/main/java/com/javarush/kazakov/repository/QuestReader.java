@@ -1,11 +1,11 @@
-package com.javarush.kazakov.service;
+package com.javarush.kazakov.repository;
 
 import com.javarush.kazakov.entity.Answer;
 import com.javarush.kazakov.entity.Quest;
 import com.javarush.kazakov.entity.Question;
 import com.javarush.kazakov.entity.Result;
 import com.javarush.kazakov.exception.QuestSQLException;
-import com.javarush.kazakov.repository.DB;
+import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,10 +14,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class QuestReader {
     private final String questName;
 
     public QuestReader(String questName) {
+        log.info("Creating quest reader for quest {}", questName);
         this.questName = questName;
     }
 
@@ -26,6 +28,9 @@ public class QuestReader {
         Quest quest = null;
         if (dbQuestName != null) {
             quest = new Quest(dbQuestName, getQuestion(getFirstQuestionId(dbQuestName)));
+            log.info("Returns quest {}", quest.getQuestName());
+        } else {
+            log.info("No quest found for {}", questName);
         }
         return quest;
     }
@@ -43,11 +48,14 @@ public class QuestReader {
             }
             ;
         } catch (SQLException e) {
-            throw new QuestSQLException("SQL Error at fetching db quest's name", e);
+            String message = "SQL Error at fetching db quest's name";
+            log.error("{} {}", message, questName);
+            throw new QuestSQLException(message, e);
         }
         return null;
     }
 
+    @Deprecated
     private boolean isQuestExists(String questName) {
         String sql = """
                 SELECT ID FROM QUESTS.QUEST WHERE TITLE = ?
@@ -72,6 +80,7 @@ public class QuestReader {
                 ON QUESTS.QUEST.ID = QUESTS.QUEST_FIRST_QUESTION.QUEST_ID
                 WHERE TITLE = ?
                 """;
+
         try (Connection connection = DB.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, dbQuestName);

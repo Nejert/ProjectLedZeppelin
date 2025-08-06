@@ -1,19 +1,30 @@
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Quests</title>
-</head>
-<body>
-<h1>Quests</h1>
-<%
-    List<String> questsList = (List<String>) session.getAttribute("questsList");
-    if (questsList != null) {
-        for (int i = 0; i < questsList.size(); i++) {
-            out.println("<a href=\"/quest/%s\">%d. %s</a></br>"
-                    .formatted(questsList.get(i).replaceAll("\\s+", "-").toLowerCase(), i + 1, questsList.get(i)));
-        }
-    }
-%>
-</body>
-</html>
+<div class="container text-light text-bg-dark py-4 py-xl-5">
+    <div class="row mb-5">
+        <div class="col-md-8 col-xl-6 text-center mx-auto">
+            <h2>Quests</h2>
+        </div>
+    </div>
+    <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3">
+        <%
+            List<String> questsList = (List<String>) session.getAttribute("questsList");
+            if (questsList != null) {
+                for (int i = 0; i < questsList.size(); i++) {
+        %>
+        <div class="col">
+            <div class="d-flex">
+                <div class="px-3">
+                    <h4><%=questsList.get(i)%>
+                    </h4>
+                    <a href="<%="quest/"+questsList.get(i).replaceAll("\\s+", "-").toLowerCase()%>">Start quest</a>
+                </div>
+            </div>
+        </div>
+        <%
+                }
+            }
+        %>
+    </div>
+</div>
+
