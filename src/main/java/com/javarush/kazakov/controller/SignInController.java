@@ -22,7 +22,7 @@ public class SignInController extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         User user = new UserService().get(login);
-        if (user != null && user.password().equals(password)) {
+        if (user != null && user.getPassword().equals(password)) {
             req.getSession().setAttribute("user", user);
         }
         resp.sendRedirect("/");

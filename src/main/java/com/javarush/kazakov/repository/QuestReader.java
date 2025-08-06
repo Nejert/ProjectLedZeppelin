@@ -46,7 +46,6 @@ public class QuestReader {
             if (resultSet.next()) {
                 return resultSet.getString("TITLE");
             }
-            ;
         } catch (SQLException e) {
             String message = "SQL Error at fetching db quest's name";
             log.error("{} {}", message, questName);
@@ -66,7 +65,6 @@ public class QuestReader {
             if (!statement.executeQuery().next()) {
                 return false;
             }
-            ;
         } catch (SQLException e) {
             throw new QuestSQLException("SQL Error at checking quests existence", e);
         }

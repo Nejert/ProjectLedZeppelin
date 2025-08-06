@@ -12,7 +12,7 @@
                 <div class="card-body text-center text-light text-bg-dark d-flex flex-column align-items-center p-0">
                     <img class="rounded-circle mb-3 fit-cover" width="130" height="130"
                          src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
-                    <h5 class="fw-bold text-primary card-title mb-0"><strong><%=((User)user).login()%></strong></h5>
+                    <h5 class="fw-bold text-primary card-title mb-0"><strong><%=((User)user).getLogin()%></strong></h5>
                     <div class="d-flex flex-column">
                         <a id="changeLoginAnchor" href="#" onclick="changeLogin()">Change login</a>
                         <a id="changePasswordAnchor" href="#" onclick="changePassword()">Change password</a>

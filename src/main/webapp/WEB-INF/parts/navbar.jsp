@@ -36,7 +36,7 @@
                 <img class="rounded-circle" width="32" height="32"
                      src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png"/>
                 <a href="/profile">
-                    <h5 class="fw-bold text-primary mb-0"><strong><%=((User)user).login()%></strong></h5>
+                    <h5 class="fw-bold text-primary mb-0"><strong><%=((User)user).getLogin()%></strong></h5>
                 </a>
             </div>
             <a class="btn btn-primary" role="button" href="#" style="background: var(--bs-red);">SignOut</a>

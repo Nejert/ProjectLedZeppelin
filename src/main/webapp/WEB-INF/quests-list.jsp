@@ -8,8 +8,9 @@
     </div>
     <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3">
         <%
-            List<String> questsList = (List<String>) session.getAttribute("questsList");
-            if (questsList != null) {
+            Object quests = session.getAttribute("questsList");
+            if (quests != null) {
+                List<String> questsList = (List<String>) quests;
                 for (int i = 0; i < questsList.size(); i++) {
         %>
         <div class="col">

@@ -11,10 +11,10 @@ public class UserServiceTest {
     public void gettingUserFromDBTest() {
         UserService userService = new UserService();
         User admin = userService.get("Admin");
-        Assertions.assertEquals("Admin", admin.login());
-        Assertions.assertEquals("admin", admin.password());
-        Assertions.assertEquals(UserRole.ADMIN, admin.role());
-        Assertions.assertEquals(0, admin.victory());
-        Assertions.assertEquals(0, admin.defeat());
+        Assertions.assertEquals("Admin", admin.getLogin());
+        Assertions.assertEquals("admin", admin.getPassword());
+        Assertions.assertEquals(UserRole.ADMIN, admin.getRole());
+        Assertions.assertEquals(0, admin.getVictory());
+        Assertions.assertEquals(0, admin.getDefeat());
     }
 }

@@ -39,28 +39,28 @@ public class ProfileController extends HttpServlet {
     private void changeLogin(HttpServletRequest req) {
         User newUser = new User(
                 req.getParameter("newLogin"),
-                user.password(),
-                user.role(),
-                user.victory(),
-                user.defeat());
+                user.getPassword(),
+                user.getRole(),
+                user.getVictory(),
+                user.getDefeat());
         UserService userService = new UserService();
         userService.update(newUser);
-        req.getSession().setAttribute("user", userService.get(newUser.login()));
+        req.getSession().setAttribute("user", userService.get(newUser.getLogin()));
     }
 
     private void changePassword(HttpServletRequest req) {
         String oldPassword = req.getParameter("oldPassword");
         String newPassword = req.getParameter("newPassword");
-        if (oldPassword.equals(user.password())) {
+        if (oldPassword.equals(user.getPassword())) {
             User newUser = new User(
-                    user.login(),
+                    user.getLogin(),
                     newPassword,
-                    user.role(),
-                    user.victory(),
-                    user.defeat());
+                    user.getRole(),
+                    user.getVictory(),
+                    user.getDefeat());
             UserService userService = new UserService();
             userService.update(newUser);
-            req.getSession().setAttribute("user", userService.get(newUser.login()));
+            req.getSession().setAttribute("user", userService.get(newUser.getLogin()));
         }
     }
 
