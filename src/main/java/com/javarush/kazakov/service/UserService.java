@@ -45,12 +45,12 @@ public class UserService {
                 """;
         try (Connection connection = DB.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, user.getLogin());
-            statement.setString(2, user.getPassword());
-            statement.setString(3, user.getRole().name());
+            statement.setString(1, user.login());
+            statement.setString(2, user.password());
+            statement.setString(3, user.role().name());
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new QuestSQLException("SQL Error at creating " + user.getLogin() + " user", e);
+            throw new QuestSQLException("SQL Error at creating " + user.login() + " user", e);
         }
     }
 
@@ -60,14 +60,14 @@ public class UserService {
                 """;
         try (Connection connection = DB.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, user.getLogin());
-            statement.setString(2, user.getPassword());
+            statement.setString(1, user.login());
+            statement.setString(2, user.password());
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 throw new QuestException("User already exists");
             }
         } catch (SQLException e) {
-            throw new QuestSQLException("SQL Error at checking " + user.getLogin() + " user", e);
+            throw new QuestSQLException("SQL Error at checking " + user.login() + " user", e);
         }
     }
 
@@ -82,16 +82,16 @@ public class UserService {
                 """;
         try (Connection connection = DB.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, user.getLogin());
-            statement.setString(2, user.getPassword());
-            statement.setString(3, user.getRole().name());
-            statement.setInt(4, user.getVictory());
-            statement.setInt(5, user.getDefeat());
-            statement.setString(6, user.getLogin());
-            statement.setString(7, user.getPassword());
+            statement.setString(1, user.login());
+            statement.setString(2, user.password());
+            statement.setString(3, user.role().name());
+            statement.setInt(4, user.victory());
+            statement.setInt(5, user.defeat());
+            statement.setString(6, user.login());
+            statement.setString(7, user.password());
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new QuestSQLException("SQL Error at updating " + user.getLogin() + " user", e);
+            throw new QuestSQLException("SQL Error at updating " + user.login() + " user", e);
         }
     }
 
@@ -99,10 +99,10 @@ public class UserService {
         String sql = "DELETE FROM USERS.USER_ WHERE LOGIN = ?";
         try (Connection connection = DB.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, user.getLogin());
+            statement.setString(1, user.login());
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new QuestSQLException("SQL Error at deleting " + user.getLogin() + " user", e);
+            throw new QuestSQLException("SQL Error at deleting " + user.login() + " user", e);
         }
     }
 }

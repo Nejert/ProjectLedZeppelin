@@ -1,7 +1,8 @@
 <%@ page import="com.javarush.kazakov.entity.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <nav class="navbar navbar-dark navbar-expand-md bg-dark py-3" style="border-bottom: 3px solid var(--bs-gray) ;">
-    <div class="container-fluid"><a class="navbar-brand d-flex align-items-center" href="#"><span
+    <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" href="/"><span
             class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon"><svg
             xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16"
             class="bi bi-question-square-fill">
@@ -23,28 +24,25 @@
 
         <div class="d-flex align-items-center">
             <%
-                User user = (User) session.getAttribute("user");
+                Object user = session.getAttribute("user");
                 if (user == null) {
             %>
             <a class="btn btn-light me-2" role="button" href="sign-in">SignIn</a>
-            <a class="btn btn-primary" role="button" href="#">SignUp</a>
+            <a class="btn btn-primary" role="button" href="sign-up">SignUp</a>
             <%
             } else {
             %>
             <div class="d-flex align-items-center" style="padding-right: 5px;">
                 <img class="rounded-circle" width="32" height="32"
                      src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png"/>
-                <h5 class="fw-bold text-primary mb-0"><strong><%=user.getLogin()%>
-                </strong></h5>
+                <a href="/profile">
+                    <h5 class="fw-bold text-primary mb-0"><strong><%=((User)user).login()%></strong></h5>
+                </a>
             </div>
             <a class="btn btn-primary" role="button" href="#" style="background: var(--bs-red);">SignOut</a>
             <%
                 }
             %>
         </div>
-        <%--        <div class="d-none d-md-block">--%>
-        <%--            <a class="btn btn-light me-2" role="button" href="sign-in">SignIn</a>--%>
-        <%--            <a class="btn btn-primary" role="button" href="#">SignUp</a>--%>
-        <%--        </div>--%>
     </div>
 </nav>

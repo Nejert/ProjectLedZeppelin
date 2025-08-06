@@ -54,6 +54,7 @@ public class DB {
                 String sql = Files.readString(scriptPath);
                 log.info("Executing SQL script: {}", scriptPath);
                 connection.createStatement().execute(sql);
+                log.info("Done");
             } catch (IOException | SQLException e) {
                 log.error("Error executing SQL script: {} -> {}", scriptPath, e.getMessage());
                 throw new QuestException("Unable to read default SQL script", e);
