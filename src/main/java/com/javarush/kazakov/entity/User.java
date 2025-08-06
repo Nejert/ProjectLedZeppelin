@@ -13,4 +13,5 @@ public class User {
     private final UserRole role;
     private final int victory;
     private final int defeat;
+    private final String image;
 }

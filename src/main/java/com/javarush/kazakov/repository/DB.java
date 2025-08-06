@@ -52,9 +52,9 @@ public class DB {
             }
             try (Connection connection = getConnection()) {
                 String sql = Files.readString(scriptPath);
-                log.info("Executing SQL script: {}", scriptPath);
+                log.trace("Executing SQL script: {}", scriptPath);
                 connection.createStatement().execute(sql);
-                log.info("Done");
+                log.trace("Done");
             } catch (IOException | SQLException e) {
                 log.error("Error executing SQL script: {} -> {}", scriptPath, e.getMessage());
                 throw new QuestException("Unable to read default SQL script", e);
@@ -66,7 +66,7 @@ public class DB {
         if (instance == null) {
             synchronized (DB.class) {
                 if (instance == null) {
-                    log.info("Creating new instance");
+                    log.trace("Creating new instance");
                     instance = new DB();
                     if (!instance.dbPath.toFile().exists()) {
                         log.info("{} not found. Initializing database", instance.dbPath);
@@ -83,7 +83,7 @@ public class DB {
             getInstance();
         }
         try {
-            log.info("Connecting to database...");
+            log.trace("Connecting to database");
             return DriverManager.getConnection(instance.jdbcUrl);
         } catch (SQLException e) {
             String message = "Error creating connection -> " + e.getMessage();

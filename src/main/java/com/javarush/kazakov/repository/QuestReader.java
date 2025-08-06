@@ -19,7 +19,7 @@ public class QuestReader {
     private final String questName;
 
     public QuestReader(String questName) {
-        log.info("Creating quest reader for quest {}", questName);
+        log.info("Creating quest reader for quest '{}'", questName);
         this.questName = questName;
     }
 
@@ -28,9 +28,9 @@ public class QuestReader {
         Quest quest = null;
         if (dbQuestName != null) {
             quest = new Quest(dbQuestName, getQuestion(getFirstQuestionId(dbQuestName)));
-            log.info("Returns quest {}", quest.getQuestName());
+            log.trace("Returns quest '{}'", quest.getQuestName());
         } else {
-            log.info("No quest found for {}", questName);
+            log.warn("No quest found for {}", questName);
         }
         return quest;
     }
@@ -48,7 +48,7 @@ public class QuestReader {
             }
         } catch (SQLException e) {
             String message = "SQL Error at fetching db quest's name";
-            log.error("{} {}", message, questName);
+            log.error("{} '{}'", message, questName);
             throw new QuestSQLException(message, e);
         }
         return null;

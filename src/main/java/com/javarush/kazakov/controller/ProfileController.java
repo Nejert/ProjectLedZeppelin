@@ -37,12 +37,14 @@ public class ProfileController extends HttpServlet {
     }
 
     private void changeLogin(HttpServletRequest req) {
-        User newUser = new User(
-                req.getParameter("newLogin"),
-                user.getPassword(),
-                user.getRole(),
-                user.getVictory(),
-                user.getDefeat());
+        User newUser = User.builder()
+                .login(req.getParameter("newLogin"))
+                .password(user.getPassword())
+                .role(user.getRole())
+                .victory(user.getVictory())
+                .defeat(user.getDefeat())
+                .image(user.getImage())
+                .build();
         UserService userService = new UserService();
         userService.update(newUser);
         req.getSession().setAttribute("user", userService.get(newUser.getLogin()));
@@ -52,12 +54,14 @@ public class ProfileController extends HttpServlet {
         String oldPassword = req.getParameter("oldPassword");
         String newPassword = req.getParameter("newPassword");
         if (oldPassword.equals(user.getPassword())) {
-            User newUser = new User(
-                    user.getLogin(),
-                    newPassword,
-                    user.getRole(),
-                    user.getVictory(),
-                    user.getDefeat());
+            User newUser = User.builder()
+                    .login(user.getLogin())
+                    .password(newPassword)
+                    .role(user.getRole())
+                    .victory(user.getVictory())
+                    .defeat(user.getDefeat())
+                    .image(user.getImage())
+                    .build();
             UserService userService = new UserService();
             userService.update(newUser);
             req.getSession().setAttribute("user", userService.get(newUser.getLogin()));

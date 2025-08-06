@@ -14,7 +14,7 @@ import java.sql.SQLException;
 public class UserService {
     public User get(String username) {
         String sql = """
-                SELECT U.ID, U.LOGIN, U.PASSWORD, ROLE.ROLE, U.VICTORY, U.DEFEAT
+                SELECT U.ID, U.LOGIN, U.PASSWORD, ROLE.ROLE, U.VICTORY, U.DEFEAT, U.IMAGE
                 FROM USERS.USER_ AS U JOIN USERS.ROLE
                 ON U.ROLE_ID = ROLE.ID
                 WHERE LOGIN = ?
@@ -24,12 +24,14 @@ public class UserService {
             statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                String login = resultSet.getString("LOGIN");
-                String password = resultSet.getString("PASSWORD");
-                UserRole role = UserRole.valueOf(resultSet.getString("ROLE"));
-                int victory = resultSet.getInt("VICTORY");
-                int defeat = resultSet.getInt("DEFEAT");
-                return new User(login, password, role, victory, defeat);
+                return User.builder()
+                        .login(resultSet.getString("LOGIN"))
+                        .password(resultSet.getString("PASSWORD"))
+                        .role(UserRole.valueOf(resultSet.getString("ROLE")))
+                        .victory(resultSet.getInt("VICTORY"))
+                        .defeat(resultSet.getInt("DEFEAT"))
+                        .image(resultSet.getString("IMAGE"))
+                        .build();
             }
         } catch (SQLException e) {
             throw new QuestSQLException("SQL Error at fetching " + username + " user info", e);
@@ -40,14 +42,15 @@ public class UserService {
     public void create(User user) {
         checkUniqueness(user);
         String sql = """
-                INSERT INTO USERS.USER_(LOGIN, PASSWORD, ROLE_ID, VICTORY, DEFEAT)
-                VALUES (?, ?, SELECT ID FROM USERS.ROLE WHERE ROLE = ?, 0, 0);
+                INSERT INTO USERS.USER_(LOGIN, PASSWORD, ROLE_ID, VICTORY, DEFEAT, IMAGE)
+                VALUES (?, ?, SELECT ID FROM USERS.ROLE WHERE ROLE = ?, 0, 0, ?);
                 """;
         try (Connection connection = DB.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, user.getLogin());
             statement.setString(2, user.getPassword());
             statement.setString(3, user.getRole().name());
+            statement.setString(4, user.getImage());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new QuestSQLException("SQL Error at creating " + user.getLogin() + " user", e);
@@ -77,7 +80,7 @@ public class UserService {
                 SET LOGIN = ?,
                 PASSWORD = ?,
                 ROLE_ID = (SELECT ID FROM USERS.ROLE WHERE ROLE = ?),
-                VICTORY = ?, DEFEAT = ?
+                VICTORY = ?, DEFEAT = ?, IMAGE = ?
                 WHERE LOGIN = ? OR PASSWORD = ?;
                 """;
         try (Connection connection = DB.getConnection()) {
@@ -87,8 +90,9 @@ public class UserService {
             statement.setString(3, user.getRole().name());
             statement.setInt(4, user.getVictory());
             statement.setInt(5, user.getDefeat());
-            statement.setString(6, user.getLogin());
-            statement.setString(7, user.getPassword());
+            statement.setString(6, user.getImage());
+            statement.setString(7, user.getLogin());
+            statement.setString(8, user.getPassword());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new QuestSQLException("SQL Error at updating " + user.getLogin() + " user", e);
