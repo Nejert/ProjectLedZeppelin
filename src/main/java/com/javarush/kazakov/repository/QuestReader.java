@@ -143,7 +143,7 @@ public class QuestReader {
 
     private Result getResult(int id) {
         String sql = """
-                SELECT TITLE
+                SELECT TITLE, VICTORY
                 FROM QUESTS.RESULT JOIN QUESTS.ANSWER_RESULT
                 ON RESULT.ID = ANSWER_RESULT.RESULT_ID
                 WHERE ANSWER_ID = ?
@@ -153,7 +153,7 @@ public class QuestReader {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                return new Result(resultSet.getString(1));
+                return new Result(resultSet.getString(1), resultSet.getBoolean(2));
             }
         } catch (SQLException e) {
             throw new QuestSQLException("SQL Error at fetching end result", e);

@@ -7,4 +7,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public class Result implements QuestEntity {
     private final String text;
+    private final boolean victory;
 }

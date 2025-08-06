@@ -30,25 +30,25 @@ public class TestQuest {
     public static final String FAIL_THIRD_QUESTION_FIRST_ANSWER = "Fail third question first answer";
 
     public static Quest getTestQuest() {
-        Result falseThirdQuestionFirstAnswerResult = new Result(FAIL_THIRD_QUESTION_FIRST_ANSWER);
-        Result falseThirdQuestionSecondAnswerResult = new Result(FAIL_THIRD_QUESTION_SECOND_ANSWER);
-        Result trueThirdQuestionResult = new Result(SUCCEED_THIRD_QUESTION);
+        Result falseThirdQuestionFirstAnswerResult = new Result(FAIL_THIRD_QUESTION_FIRST_ANSWER, false);
+        Result falseThirdQuestionSecondAnswerResult = new Result(FAIL_THIRD_QUESTION_SECOND_ANSWER,false);
+        Result trueThirdQuestionResult = new Result(SUCCEED_THIRD_QUESTION,true);
         Answer thirdQuestionFirstFalseAnswer = new Answer(THIRD_QUESTION_FIRST_FALSE_ANSWER, null, falseThirdQuestionFirstAnswerResult);
         Answer thirdQuestionSecondFalseAnswer = new Answer(THIRD_QUESTION_SECOND_FALSE_ANSWER, null, falseThirdQuestionSecondAnswerResult);
         Answer thirdQuestionTrueAnswer = new Answer(THIRD_QUESTION_TRUE_ANSWER, null, trueThirdQuestionResult);
         List<Answer> thirdAnswers = List.of(thirdQuestionFirstFalseAnswer, thirdQuestionSecondFalseAnswer, thirdQuestionTrueAnswer);
         Question thirdQuestion = new Question(THIRD_QUESTION, thirdAnswers);
 
-        Result falseSecondQuestionFirstAnswerResult = new Result(FAIL_SECOND_QUESTION_FIRST_ANSWER);
-        Result falseSecondQuestionSecondAnswerResult = new Result(FAIL_SECOND_QUESTION_SECOND_ANSWER);
+        Result falseSecondQuestionFirstAnswerResult = new Result(FAIL_SECOND_QUESTION_FIRST_ANSWER,false);
+        Result falseSecondQuestionSecondAnswerResult = new Result(FAIL_SECOND_QUESTION_SECOND_ANSWER,false);
         Answer secondQuestionFirstFalseAnswer = new Answer(SECOND_QUESTION_FIRST_FALSE_ANSWER, null, falseSecondQuestionFirstAnswerResult);
         Answer secondQuestionSecondFalseAnswer = new Answer(SECOND_QUESTION_SECOND_FALSE_ANSWER, null, falseSecondQuestionSecondAnswerResult);
         Answer secondQuestionTrueAnswer = new Answer(SECOND_QUESTION_TRUE_ANSWER, thirdQuestion, null);
         List<Answer> secondAnswers = List.of(secondQuestionFirstFalseAnswer, secondQuestionSecondFalseAnswer, secondQuestionTrueAnswer);
         Question secondQuestion = new Question(SECOND_QUESTION, secondAnswers);
 
-        Result falseFirstQuestionFirstAnswerResult = new Result(FAIL_FIRST_QUESTION_FIRST_ANSWER);
-        Result falseFirstQuestionSecondAnswerResult = new Result(FAIL_FIRST_QUESTION_SECOND_ANSWER);
+        Result falseFirstQuestionFirstAnswerResult = new Result(FAIL_FIRST_QUESTION_FIRST_ANSWER,false);
+        Result falseFirstQuestionSecondAnswerResult = new Result(FAIL_FIRST_QUESTION_SECOND_ANSWER,false);
         Answer firstQuestionFirstFalseAnswer = new Answer(FIRST_QUESTION_FIRST_FALSE_ANSWER, null, falseFirstQuestionFirstAnswerResult);
         Answer firstQuestionSecondFalseAnswer = new Answer(FIRST_QUESTION_SECOND_FALSE_ANSWER, null, falseFirstQuestionSecondAnswerResult);
         Answer firstQuestionTrueAnswer = new Answer(FIRST_QUESTION_TRUE_ANSWER, secondQuestion, null);

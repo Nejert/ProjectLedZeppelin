@@ -21,7 +21,8 @@ CREATE TABLE QUESTS.ANSWER
 CREATE TABLE QUESTS.RESULT
 (
     id    INTEGER PRIMARY KEY AUTO_INCREMENT,
-    title TEXT NOT NULL
+    title TEXT NOT NULL,
+    victory BOOLEAN NOT NULL
 );
 
 /*Init tables*/
@@ -41,11 +42,11 @@ VALUES ('Отклонить вызов'),
        ('Солгать о себе'),
        ('Рассказать правду о себе');
 
-INSERT INTO QUESTS.RESULT (title)
-VALUES ('Тебя вернули домой. Победа'),
-       ('Ты отклонил вызов. Поражение'),
-       ('Ты не пошел на переговоры. Поражение'),
-       ('Твою ложь разоблачили. Поражение');
+INSERT INTO QUESTS.RESULT (title, victory)
+VALUES ('Тебя вернули домой. Победа', TRUE),
+       ('Ты отклонил вызов. Поражение', FALSE),
+       ('Ты не пошел на переговоры. Поражение', FALSE),
+       ('Твою ложь разоблачили. Поражение', FALSE);
 /*Setting up connections*/
 
 CREATE TABLE QUESTS.QUESTION_ANSWER
