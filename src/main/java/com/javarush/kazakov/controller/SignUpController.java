@@ -2,6 +2,8 @@ package com.javarush.kazakov.controller;
 
 import com.javarush.kazakov.entity.User;
 import com.javarush.kazakov.entity.UserRole;
+import com.javarush.kazakov.service.ImageService;
+import com.javarush.kazakov.service.UserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -26,15 +28,22 @@ public class SignUpController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Part imageFile = req.getPart("imageFile");
-        //loadImage(imageFile);
+        Part imagePart = req.getPart("imageFile");
+        String login = req.getParameter("login");
+        String password = req.getParameter("password");
+        ImageService imageService = new ImageService();
+        String imageName = imageService.loadImage(login, imagePart);
         User user = User.builder()
-                .login(req.getParameter("login"))
-                .password(req.getParameter("password"))
+                .login(login)
+                .password(password)
                 .role(UserRole.USER)
                 .victory(0)
                 .defeat(0)
+                .image(imageName)
                 .build();
-
+        UserService userService = new UserService();
+        userService.create(user);
+        req.getSession().setAttribute("user", user);
+        resp.sendRedirect("/");
     }
 }

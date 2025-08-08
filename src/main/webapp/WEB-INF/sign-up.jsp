@@ -14,7 +14,7 @@
                         <form class="d-flex flex-column my-auto justify-content-xl-center align-items-xl-center"
                               method="post" enctype="multipart/form-data">
                             <img id="avatar" class="rounded-circle"
-                                 src="/images/cat.png"
+                                 src="/images/no-image.png"
                                  width="150" height="150" onclick="loadImage()" style="cursor: pointer;">
                             <input id="imageFile" name="imageFile" class="form-control invisible" type="file"
                                    accept="image/*" style="height: 0px;"/>

@@ -11,13 +11,16 @@
             <div class="card border-0 shadow-none">
                 <div class="card-body text-center text-light text-bg-dark d-flex flex-column align-items-center p-0">
                     <img class="rounded-circle mb-3 fit-cover" width="130" height="130"
-                         src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
-                    <h5 class="fw-bold text-primary card-title mb-0"><strong><%=((User)user).getLogin()%></strong></h5>
+                         src="images/<%=user.getImage()%>">
+                    <h5 class="fw-bold text-primary card-title mb-0"><strong><%=user.getLogin()%>
+                    </strong></h5>
                     <div class="d-flex flex-column">
                         <a id="changeLoginAnchor" href="#" onclick="changeLogin()">Change login</a>
                         <a id="changePasswordAnchor" href="#" onclick="changePassword()">Change password</a>
                         <a id="deleteProfile" href="#" onclick="deleteProfile()">Delete profile</a>
-                        <a href="#" style="color: var(--bs-red);">SignOut</a>
+                        <form id="signOutProf" action="sign-out" method="post">
+                        <a href="#" onclick="document.getElementById('signOutProf').submit();" style="color: var(--bs-red);">SignOut</a>
+                        </form>
                     </div>
                 </div>
             </div>
