@@ -1,9 +1,11 @@
 CREATE SCHEMA IF NOT EXISTS QUESTS;
 /*Create tables*/
-CREATE TABLE QUESTS.QUEST //TODO: add author from user_
+CREATE TABLE QUESTS.QUEST
 (
     id    INTEGER PRIMARY KEY AUTO_INCREMENT,
-    title TEXT NOT NULL
+    title TEXT NOT NULL,
+    author_id INTEGER,
+    FOREIGN KEY (author_id) REFERENCES USERS.USER_ (ID) ON DELETE SET NULL
 );
 
 CREATE TABLE QUESTS.QUESTION
@@ -26,8 +28,8 @@ CREATE TABLE QUESTS.RESULT
 );
 
 /*Init tables*/
-INSERT INTO QUESTS.QUEST (title)
-VALUES ('JavaRush Quest');
+INSERT INTO QUESTS.QUEST (title, author_id)
+VALUES ('JavaRush Quest', 1);
 
 INSERT INTO QUESTS.QUESTION (title)
 VALUES ('Ты потерял память. Принять вызов НЛО?'),

@@ -11,13 +11,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class QuestWriter {
-    private final Quest quest;
 
-    public QuestWriter(Quest quest) {
-        this.quest = quest;
-    }
-
-    public void write() {
+    public void write(User user, Quest quest) {
         String questName = quest.getQuestName();
         Question currentQuestion = quest.getCurrentQuestion();
         checkQuestExists(questName);
@@ -25,7 +20,23 @@ public class QuestWriter {
         writeQuestName(questName);
         writeQuestion(currentQuestion);
         writeLink(Table.QUEST_FIRST_QUESTION, getDBId(quest), getDBId(currentQuestion));
+        linkQuestAuthor(questName, user.getLogin());
+    }
 
+    private void linkQuestAuthor(String questName, String username) {
+        String sql = """
+                UPDATE QUESTS.QUEST
+                SET QUESTS.QUEST.AUTHOR_ID = (SELECT ID FROM USERS.USER_ WHERE LOGIN = ?)
+                WHERE QUESTS.QUEST.TITLE = ?;
+                """;
+        try (Connection connection = DB.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, username);
+            statement.setString(2, questName);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new QuestSQLException("SQL Error at updating quest's author", e);
+        }
     }
 
     private void checkQuestExists(String questName) {
@@ -103,15 +114,16 @@ public class QuestWriter {
 
     private void writeResult(Result result) {
         String sql = """
-                INSERT INTO QUESTS.RESULT(TITLE)
-                VALUES (?);
+                INSERT INTO QUESTS.RESULT(TITLE, VICTORY)
+                VALUES (?,?);
                 """;
         try (Connection connection = DB.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, result.getText());
+            statement.setBoolean(2, result.isVictory());
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new QuestSQLException("SQL Error at writing result", e);
+            throw new QuestSQLException("SQL Error at writing result -> " + e.getMessage());
         }
     }
 

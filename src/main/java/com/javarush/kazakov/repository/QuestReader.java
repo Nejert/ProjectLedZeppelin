@@ -16,14 +16,8 @@ import java.util.List;
 
 @Slf4j
 public class QuestReader {
-    private final String questName;
 
-    public QuestReader(String questName) {
-        log.info("Creating quest reader for quest '{}'", questName);
-        this.questName = questName;
-    }
-
-    public Quest read() {
+    public Quest read(String questName) {
         String dbQuestName = getDBQuestName(questName.toLowerCase());
         Quest quest = null;
         if (dbQuestName != null) {

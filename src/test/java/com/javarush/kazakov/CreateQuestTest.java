@@ -1,13 +1,11 @@
 package com.javarush.kazakov;
 
-import com.javarush.kazakov.entity.Answer;
-import com.javarush.kazakov.entity.Quest;
-import com.javarush.kazakov.entity.Question;
-import com.javarush.kazakov.entity.Result;
+import com.javarush.kazakov.entity.*;
 import com.javarush.kazakov.exception.QuestException;
 import com.javarush.kazakov.repository.DB;
 import com.javarush.kazakov.repository.QuestReader;
 import com.javarush.kazakov.repository.QuestWriter;
+import com.javarush.kazakov.service.UserService;
 import org.junit.jupiter.api.*;
 
 
@@ -24,14 +22,15 @@ public class CreateQuestTest {
     public static void setUp() {
         DB.getInstance();
         testQuest = getTestQuest();
-        QuestWriter qw = new QuestWriter(testQuest);
+        User admin = new UserService().get("Admin");
+        QuestWriter qw = new QuestWriter();
         try {
-            qw.write();
+            qw.write(admin, testQuest);
         } catch (QuestException e) {
             System.out.println(e.getMessage());
         }
-        QuestReader qr = new QuestReader(QUEST_NAME);
-        DBTestQuest = qr.read();
+        QuestReader qr = new QuestReader();
+        DBTestQuest = qr.read(QUEST_NAME);
     }
 
 

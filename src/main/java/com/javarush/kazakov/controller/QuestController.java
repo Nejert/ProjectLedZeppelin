@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet("/quest/*")
 public class QuestController extends HttpServlet {
@@ -29,8 +30,8 @@ public class QuestController extends HttpServlet {
         int lastSlashIndex = url.lastIndexOf('/');
         String lastPathSegment = url.substring(lastSlashIndex + 1);
         if ("quest".equals(lastPathSegment)) {
-            List<String> questsList = questService.getQuestsList();
-            req.getSession().setAttribute("questsList", questsList);
+            Map<String, String> questAuthorMap = questService.getQuestAuthorMap();
+            req.getSession().setAttribute("questAuthorMap", questAuthorMap);
             req.getSession().setAttribute("currentQuest", null);
             req.getRequestDispatcher("/WEB-INF/quests-list.jsp").forward(req, resp);
         } else {

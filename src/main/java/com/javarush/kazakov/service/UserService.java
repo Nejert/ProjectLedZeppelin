@@ -12,6 +12,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserService {
+
+    public int countCreatedQuests(User user) {
+        String sql = """
+                SELECT COUNT(*) FROM QUESTS.QUEST
+                WHERE AUTHOR_ID = (SELECT ID FROM USERS.USER_ WHERE LOGIN = ?)
+                """;
+        try (Connection connection = DB.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, user.getLogin());
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new QuestSQLException("SQL Error at counting " + user.getLogin() + "'s quests", e);
+        }
+        return 0;
+    }
+
     public User get(String username) {
         String sql = """
                 SELECT U.ID, U.LOGIN, U.PASSWORD, ROLE.ROLE, U.VICTORY, U.DEFEAT, U.IMAGE

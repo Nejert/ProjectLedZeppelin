@@ -17,7 +17,7 @@ public class JRQuestTest {
     @BeforeAll
     public static void setUp() {
         DB.getInstance();
-        quest = new QuestReader("JavaRush Quest").read();
+        quest = new QuestReader().read("JavaRush Quest");
     }
 
     @Test

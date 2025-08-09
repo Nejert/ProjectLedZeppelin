@@ -12,8 +12,7 @@
                 class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse flex-grow-0 order-md-first" id="navcol-6">
             <ul class="navbar-nav me-auto">
-                <li class="nav-item"><a class="nav-link active" href="#">Users</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Statistics</a></li>
+                <li class="nav-item"><a class="nav-link active" href="statistics">Statistics</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Create Quest</a></li>
             </ul>
             <div class="d-md-none my-2">

@@ -70,7 +70,7 @@ public class DB {
                     instance = new DB();
                     if (!instance.dbPath.toFile().exists()) {
                         log.info("{} not found. Initializing database", instance.dbPath);
-                        instance.generateDefaultDB(INIT_QUESTS_SCHEMA_SQL, INIT_USERS_SCHEMA_SQL);
+                        instance.generateDefaultDB(INIT_USERS_SCHEMA_SQL, INIT_QUESTS_SCHEMA_SQL);
                     }
                 }
             }

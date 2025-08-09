@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Map;
 
 @WebServlet("")
 public class IndexController extends HttpServlet {
@@ -23,8 +23,8 @@ public class IndexController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<String> questsList = questService.getQuestsList();
-        req.getSession().setAttribute("questsList", questsList);
+        Map<String, String> questAuthorMap = questService.getQuestAuthorMap();
+        req.getSession().setAttribute("questAuthorMap", questAuthorMap);
         req.getRequestDispatcher("/WEB-INF/index.jsp").forward(req, resp);
     }
 }

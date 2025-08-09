@@ -24,8 +24,8 @@ public class QuestRemover {
 
     public void remove() {
         checkForQuest();
-        QuestReader qr = new QuestReader(questName);
-        Quest targetQuest = qr.read();
+        QuestReader qr = new QuestReader();
+        Quest targetQuest = qr.read(questName);
         Question currentQuestion = targetQuest.getCurrentQuestion();
         removeQuestion(currentQuestion);
         removeQuest(targetQuest);
