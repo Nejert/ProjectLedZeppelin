@@ -96,6 +96,9 @@ public class ProfileController extends HttpServlet {
             UserService userService = new UserService();
             userService.update(newUser);
             req.getSession().setAttribute("user", userService.get(newUser.getLogin()));
+        } else {
+            String message = "Passwords do not match!";
+            req.getSession().setAttribute("errorMessage", message);
         }
     }
 

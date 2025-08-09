@@ -24,7 +24,11 @@ public class SignInController extends HttpServlet {
         User user = new UserService().get(login);
         if (user != null && user.getPassword().equals(password)) {
             req.getSession().setAttribute("user", user);
+            resp.sendRedirect("/");
+        } else {
+            String message = "Wrong login or password";
+            req.getSession().setAttribute("errorMessage", message);
+            resp.sendRedirect("/sign-in");
         }
-        resp.sendRedirect("/");
     }
 }
