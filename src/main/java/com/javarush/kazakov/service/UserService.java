@@ -10,8 +10,25 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserService {
+
+    public List<User> getAll() {
+        String sql = "SELECT LOGIN FROM USERS.USER_";
+        List<User> users = new ArrayList<>();
+        try (Connection connection = DB.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                users.add(this.get(resultSet.getString(1)));
+            }
+        } catch (SQLException e) {
+            throw new QuestSQLException("SQL Error at fetching users", e);
+        }
+        return users;
+    }
 
     public int countCreatedQuests(User user) {
         String sql = """
@@ -33,10 +50,11 @@ public class UserService {
 
     public User get(String username) {
         String sql = """
-                SELECT U.ID, U.LOGIN, U.PASSWORD, ROLE.ROLE, U.VICTORY, U.DEFEAT, U.IMAGE
-                FROM USERS.USER_ AS U JOIN USERS.ROLE
-                ON U.ROLE_ID = ROLE.ID
-                WHERE LOGIN = ?
+                SELECT U.ID, U.LOGIN, U.PASSWORD, R.ROLE, U.VICTORY, U.DEFEAT, U.IMAGE, COUNT(Q.ID) AS QUANT
+                FROM (USERS.USER_ AS U JOIN USERS.ROLE AS R ON U.ROLE_ID = R.ID)
+                         LEFT JOIN QUESTS.QUEST AS Q ON U.ID = Q.AUTHOR_ID
+                GROUP BY U.LOGIN
+                HAVING U.LOGIN = ?
                 """;
         try (Connection connection = DB.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -50,6 +68,7 @@ public class UserService {
                         .victory(resultSet.getInt("VICTORY"))
                         .defeat(resultSet.getInt("DEFEAT"))
                         .image(resultSet.getString("IMAGE"))
+                        .questQuantity(resultSet.getInt("QUANT"))
                         .build();
             }
         } catch (SQLException e) {

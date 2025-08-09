@@ -14,4 +14,5 @@ public class User {
     private final int victory;
     private final int defeat;
     private final String image;
+    private final int questQuantity;
 }
