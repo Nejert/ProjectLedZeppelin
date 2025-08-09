@@ -1,15 +1,24 @@
 package com.javarush.kazakov.controller;
 
 import com.javarush.kazakov.entity.User;
+import com.javarush.kazakov.entity.UserRole;
+import com.javarush.kazakov.service.ImageService;
 import com.javarush.kazakov.service.UserService;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 
 import java.io.IOException;
 
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024 * 2, // 2 MB
+        maxFileSize = 1024 * 1024 * 10,      // 10 MB
+        maxRequestSize = 1024 * 1024 * 50    // 50 MB
+)
 @WebServlet("/profile")
 public class ProfileController extends HttpServlet {
     private User user;
@@ -28,12 +37,34 @@ public class ProfileController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String change = req.getParameter("change");
-        switch (change) {
-            case "login" -> changeLogin(req);
-            case "password" -> changePassword(req);
-            case "delete" -> deleteUser(req);
+        if (change != null) {
+            switch (change) {
+                case "login" -> changeLogin(req);
+                case "password" -> changePassword(req);
+                case "delete" -> deleteUser(req);
+            }
+        }
+        if (req.getContentType().contains("multipart/form-data")) {
+            Part changeImage = req.getPart("changeImage");
+            if (changeImage != null) changeAvatar(req, changeImage);
         }
         resp.sendRedirect("/profile");
+    }
+
+    private void changeAvatar(HttpServletRequest req, Part imagePart) throws ServletException, IOException {
+        ImageService imageService = new ImageService();
+        String imageName = imageService.loadImage(user.getLogin(), imagePart);
+        User newUser = User.builder()
+                .login(user.getLogin())
+                .password(user.getPassword())
+                .role(user.getRole())
+                .victory(user.getVictory())
+                .defeat(user.getDefeat())
+                .image(imageName)
+                .build();
+        UserService userService = new UserService();
+        userService.update(newUser);
+        req.getSession().setAttribute("user", userService.get(newUser.getLogin()));
     }
 
     private void changeLogin(HttpServletRequest req) {

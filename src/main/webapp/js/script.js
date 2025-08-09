@@ -1,3 +1,19 @@
+function changeAvatar(){
+    const form = document.getElementById('changeForm');
+    if (form) {
+        form.remove();
+    } else {
+        const formString = `
+    <form id="changeForm" method="post" enctype="multipart/form-data">
+        <input name="changeImage" class="form-control" type="file" accept="image/*" />
+        <button class="btn btn-primary" type="submit">Apply</button>
+    </form>
+    `;
+        let changeAvatarAnchor = document.getElementById('changeAvatarAnchor');
+        changeAvatarAnchor.insertAdjacentHTML('afterend', formString);
+    }
+}
+
 function changeLogin() {
     const form = document.getElementById('changeForm');
     if (form) {
