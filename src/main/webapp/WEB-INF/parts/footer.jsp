@@ -52,7 +52,7 @@
         </div>
     </div>
 </footer>
-<script src="assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="js/script.js"></script>
+<script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="/js/script.js"></script>
 </body>
 </html>

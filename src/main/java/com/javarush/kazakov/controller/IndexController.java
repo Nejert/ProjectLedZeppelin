@@ -8,10 +8,12 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.Map;
 
+@Slf4j
 @WebServlet("")
 public class IndexController extends HttpServlet {
     private QuestService questService;
@@ -25,6 +27,7 @@ public class IndexController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //autologin(req);
+        log.info("doGet: {}", req.getRequestURI());
         Map<String, String> questAuthorMap = questService.getQuestAuthorMap();
         req.getSession().setAttribute("questAuthorMap", questAuthorMap);
         req.getRequestDispatcher("/WEB-INF/index.jsp").forward(req, resp);

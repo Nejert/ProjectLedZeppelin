@@ -1,5 +1,10 @@
 <%@ page import="com.javarush.kazakov.entity.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    String requestURI = request.getRequestURI();
+    String statActive = requestURI.contains("statistics")?"active":"";
+    String createActive = requestURI.contains("create-quest")?"active":"";
+%>
 <nav class="navbar navbar-dark navbar-expand-md bg-dark py-3" style="border-bottom: 3px solid var(--bs-gray) ;">
     <div class="container-fluid">
         <a class="navbar-brand d-flex align-items-center" href="/"><span
@@ -12,8 +17,8 @@
                 class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse flex-grow-0 order-md-first" id="navcol-6">
             <ul class="navbar-nav me-auto">
-                <li class="nav-item"><a class="nav-link active" href="statistics">Statistics</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Create Quest</a></li>
+                <li class="nav-item"><a class="nav-link <%=statActive%>" href="/statistics">Statistics</a></li>
+                <li class="nav-item"><a class="nav-link <%=createActive%>" href="/create-quest">Create Quest</a></li>
             </ul>
             <div class="d-md-none my-2">
                 <button class="btn btn-light me-2" type="button">Button</button>
@@ -27,21 +32,21 @@
                 User user = null;
                 if (userObj == null) {
             %>
-            <a class="btn btn-light me-2" role="button" href="sign-in">SignIn</a>
-            <a class="btn btn-primary" role="button" href="sign-up">SignUp</a>
+            <a class="btn btn-light me-2" role="button" href="/sign-in">SignIn</a>
+            <a class="btn btn-primary" role="button" href="/sign-up">SignUp</a>
             <%
             } else {
                 user = (User) userObj;
             %>
             <div class="d-flex align-items-center" style="padding-right: 5px;">
                 <img class="rounded-circle" width="32" height="32"
-                     src="images/<%=user.getImage()%>"/>
+                     src="/images/<%=user.getImage()%>"/>
                 <a href="/profile">
                     <h5 class="fw-bold text-primary mb-0"><strong><%=user.getLogin()%>
                     </strong></h5>
                 </a>
             </div>
-            <form id="signOutNav" action="sign-out" method="post">
+            <form id="signOutNav" action="/sign-out" method="post">
             <a class="btn btn-primary" role="button" href="#" onclick="document.getElementById('signOutNav').submit();" style="background: var(--bs-red);">SignOut</a>
             </form>
             <%
