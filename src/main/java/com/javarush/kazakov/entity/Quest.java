@@ -1,18 +1,17 @@
 package com.javarush.kazakov.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Quest implements QuestEntity {
-    private final String questName;
+    private String questName;
     @Setter
     private Question currentQuestion;
-
-    public Quest(String questName, Question currentQuestion) {
-        this.questName = questName;
-        this.currentQuestion = currentQuestion;
-    }
 
     @Override
     public String getText() {

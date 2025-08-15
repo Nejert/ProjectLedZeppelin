@@ -148,10 +148,11 @@ public class QuestWriter {
     private int getDBId(QuestEntity entity) {
         String className = entity.getClass().getSimpleName().toLowerCase();
         String sql = """
-                SELECT ID FROM QUESTS.%s WHERE TITLE = '%s'
-                """.formatted(className, entity.getText());
+                SELECT ID FROM QUESTS.%s WHERE TITLE = ?
+                """.formatted(className);
         try (Connection connection = DB.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, entity.getText());
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getInt(1);

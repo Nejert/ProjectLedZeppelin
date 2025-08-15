@@ -57,7 +57,7 @@ public class QuestController extends HttpServlet {
             resp.sendRedirect(req.getRequestURI());
         } else if (answer.getEndResult() != null) {
             req.getSession().setAttribute("result", answer.getEndResult());
-            resp.sendRedirect("/result"); //TODO:add result.jsp
+            resp.sendRedirect("/result");
         }
     }
 }

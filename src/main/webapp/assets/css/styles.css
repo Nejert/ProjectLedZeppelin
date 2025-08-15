@@ -1,0 +1,23 @@
+#question-label {
+    margin-right: 21px;
+}
+
+#answer-label {
+    margin-right: 34px;
+}
+
+#result-label {
+    margin-right: 43px;
+}
+
+#add-answer {
+    margin: -2px;
+}
+
+.btn {
+    margin-left: 3px;
+}
+
+.result input[type="checkbox"] {
+    margin-left: 3px;
+}

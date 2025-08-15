@@ -24,4 +24,5 @@ VALUES ('ADMIN'),
        ('USER');
 
 INSERT INTO USERS.USER_ (login, password, role_id, victory, defeat, image)
-VALUES ('Admin', 'admin', 1, 0, 0, 'Admin.png');
+VALUES ('admin', 'admin', 1, 0, 0, 'admin.png'),
+       ('user', 'user', 2, 0, 0, 'user.jpg');
