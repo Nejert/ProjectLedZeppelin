@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@include file="parts/header.jsp"%>
 <section class="position-relative py-4 py-xl-5">
     <div class="container">

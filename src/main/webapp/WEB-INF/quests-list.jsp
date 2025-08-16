@@ -1,5 +1,5 @@
 <%@ page import="java.util.Map" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <div class="container text-light text-bg-dark py-4 py-xl-5">
     <div class="row mb-5">
         <div class="col-md-8 col-xl-6 text-center mx-auto">

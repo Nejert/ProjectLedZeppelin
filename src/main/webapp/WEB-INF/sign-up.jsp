@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@include file="parts/header.jsp" %>
 <section class="position-relative py-4 py-xl-5">
     <div class="container">
@@ -14,10 +14,10 @@
                         <form class="d-flex flex-column my-auto justify-content-xl-center align-items-xl-center"
                               method="post" enctype="multipart/form-data">
                             <img id="avatar" class="rounded-circle"
-                                 src="/images/no-image.png"
+                                 src="${pageContext.request.contextPath}/images/no-image.png"
                                  width="150" height="150" onclick="loadImage()" style="cursor: pointer;">
                             <input id="imageFile" name="imageFile" class="form-control invisible" type="file"
-                                   accept="image/*" style="height: 0px;"/>
+                                   accept="image/*" style="height: 0;"/>
                             <div class="mb-3">
                                 <input class="form-control" type="text" name="login" placeholder="Login">
                             </div>

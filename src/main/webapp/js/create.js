@@ -125,8 +125,7 @@ function addResult(answerNode) {
 function gatherData() {
     let root = document.getElementById("root");
     let quest = new Quest();
-    let questName = root.querySelector("#quest-name").querySelector("#quest-name-input").value;
-    quest.questName = questName;
+    quest.questName = root.querySelector("#quest-name").querySelector("#quest-name-input").value;
     quest.currentQuestion = getQuestion(root.querySelector("#question"));
     sendQuest(quest);
 }

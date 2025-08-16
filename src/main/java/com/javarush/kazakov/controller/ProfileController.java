@@ -1,7 +1,6 @@
 package com.javarush.kazakov.controller;
 
 import com.javarush.kazakov.entity.User;
-import com.javarush.kazakov.entity.UserRole;
 import com.javarush.kazakov.service.ImageService;
 import com.javarush.kazakov.service.UserService;
 import jakarta.servlet.ServletException;
@@ -51,7 +50,7 @@ public class ProfileController extends HttpServlet {
         resp.sendRedirect("/profile");
     }
 
-    private void changeAvatar(HttpServletRequest req, Part imagePart) throws ServletException, IOException {
+    private void changeAvatar(HttpServletRequest req, Part imagePart) {
         ImageService imageService = new ImageService();
         String imageName = imageService.loadImage(user.getLogin(), imagePart);
         User newUser = User.builder()

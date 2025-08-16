@@ -20,57 +20,6 @@ public class QuestJsonTest {
 
     @Test
     public void test() {
-        String jru = """
-                {
-                  "questName" : "JavaRush Quest",
-                  "currentQuestion" : {
-                    "text" : "Ты потерял память. Принять вызов НЛО?",
-                    "answers" : [ {
-                      "text" : "Отклонить вызов",
-                      "nextQuestion" : null,
-                      "endResult" : {
-                        "text" : "Ты отклонил вызов. Поражение",
-                        "victory" : false
-                      }
-                    }, {
-                      "text" : "Принять вызов",
-                      "nextQuestion" : {
-                        "text" : "Ты принял вызов. Поднимаешься на мостик к капитану?",
-                        "answers" : [ {
-                          "text" : "Отказаться подниматься на мостик",
-                          "nextQuestion" : null,
-                          "endResult" : {
-                            "text" : "Ты не пошел на переговоры. Поражение",
-                            "victory" : false
-                          }
-                        }, {
-                          "text" : "Подняться на мостик",
-                          "nextQuestion" : {
-                            "text" : "Ты поднялся на мостик. Ты кто?",
-                            "answers" : [ {
-                              "text" : "Солгать о себе",
-                              "nextQuestion" : null,
-                              "endResult" : {
-                                "text" : "Твою ложь разоблачили. Поражение",
-                                "victory" : false
-                              }
-                            }, {
-                              "text" : "Рассказать правду о себе",
-                              "nextQuestion" : null,
-                              "endResult" : {
-                                "text" : "Тебя вернули домой. Победа",
-                                "victory" : true
-                              }
-                            } ]
-                          },
-                          "endResult" : null
-                        } ]
-                      },
-                      "endResult" : null
-                    } ]
-                  }
-                }
-                """;
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
         try {

@@ -47,7 +47,7 @@ public class QuestController extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Quest quest = (Quest) req.getSession().getAttribute("quest");
         int answerIdx = Integer.parseInt(req.getParameter("answer"));
         Answer answer = quest.getCurrentQuestion().getAnswers().get(answerIdx);

@@ -1,11 +1,11 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 </main>
 <%
     Object errorMessage = session.getAttribute("errorMessage");
     if (session.getAttribute("errorMessage") != null) {
 %>
 <div class="alert alert-success" role="alert"
-     style="margin-bottom: 0px;padding: 3px;background: var(--bs-orange);border-style: none;">
+     style="margin-bottom: 0;padding: 3px;background: var(--bs-orange);border-style: none;">
     <span style="margin-right: 0;margin-left: 10px;"><%=errorMessage%></span>
 </div>
 <%}%>
@@ -52,7 +52,7 @@
         </div>
     </div>
 </footer>
-<script src="/assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="/js/script.js"></script>
+<script src="${pageContext.request.contextPath}/assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/script.js"></script>
 </body>
 </html>

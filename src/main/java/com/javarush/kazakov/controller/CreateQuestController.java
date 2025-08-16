@@ -3,7 +3,6 @@ package com.javarush.kazakov.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.javarush.kazakov.entity.Quest;
 import com.javarush.kazakov.entity.User;
-import com.javarush.kazakov.exception.QuestException;
 import com.javarush.kazakov.service.QuestService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletInputStream;
@@ -28,7 +27,7 @@ public class CreateQuestController extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         User user = (User) req.getSession().getAttribute("user");
         ObjectMapper objectMapper = new ObjectMapper();
         try (ServletInputStream questStream = req.getInputStream()) {

@@ -49,7 +49,6 @@ public class QuestWriter {
             if (statement.executeQuery().next()) {
                 throw new QuestException("This quest already is in the database");
             }
-            ;
         } catch (SQLException e) {
             throw new QuestSQLException("SQL Error at checking quests existence", e);
         }
