@@ -35,9 +35,7 @@ public class DB {
                     .resolve(FILE_NAME + DB_EXTENSION);
             jdbcUrl = "jdbc:h2:" + dbPath.getParent().resolve(FILE_NAME);
         } catch (URISyntaxException e) {
-            String message = "Error creating jdbc url -> " + e.getMessage();
-            log.error(message);
-            throw new QuestException(message, e);
+            throw new QuestException("Error creating jdbc url", e);
         }
     }
 
@@ -47,17 +45,15 @@ public class DB {
             try {
                 scriptPath = Path.of(DB.class.getProtectionDomain().getCodeSource().getLocation().toURI()).resolve(script);
             } catch (URISyntaxException e) {
-                log.error("Error finding script {} -> {}",script, e.getMessage());
                 throw new QuestException("Unable to find script " + script, e);
             }
             try (Connection connection = getConnection()) {
                 String sql = Files.readString(scriptPath);
                 log.trace("Executing SQL script: {}", scriptPath);
                 connection.createStatement().execute(sql);
-                log.trace("Done");
+                log.trace("Executing SQL script done.");
             } catch (IOException | SQLException e) {
-                log.error("Error executing SQL script: {} -> {}", scriptPath, e.getMessage());
-                throw new QuestException("Unable to read default SQL script", e);
+                throw new QuestException("Unable to read default SQL script '%s'".formatted(scriptPath), e);
             }
         }
     }
@@ -83,14 +79,10 @@ public class DB {
             getInstance();
         }
         try {
-            log.trace("Connecting to database");
+            log.trace("Connecting to database.");
             return DriverManager.getConnection(instance.jdbcUrl);
         } catch (SQLException e) {
-            String message = "Error creating connection -> " + e.getMessage();
-            log.error(message);
-            throw new QuestException(message, e);
+            throw new QuestException("Error creating connection", e);
         }
     }
-
-
 }

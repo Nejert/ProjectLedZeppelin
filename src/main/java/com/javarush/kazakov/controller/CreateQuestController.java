@@ -1,9 +1,11 @@
 package com.javarush.kazakov.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.javarush.kazakov.config.Winter;
 import com.javarush.kazakov.entity.Quest;
 import com.javarush.kazakov.entity.User;
 import com.javarush.kazakov.service.QuestService;
+import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletInputStream;
 import jakarta.servlet.annotation.WebServlet;
@@ -17,6 +19,13 @@ import java.io.IOException;
 @Slf4j
 @WebServlet("/create-quest")
 public class CreateQuestController extends HttpServlet {
+    private QuestService questService;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        questService = Winter.find(QuestService.class);
+    }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getSession().getAttribute("user") == null) {
@@ -32,7 +41,6 @@ public class CreateQuestController extends HttpServlet {
         ObjectMapper objectMapper = new ObjectMapper();
         try (ServletInputStream questStream = req.getInputStream()) {
             Quest quest = objectMapper.readValue(questStream, Quest.class);
-            QuestService questService = new QuestService();
             questService.create(user, quest);
         } catch (Exception e) {
             log.warn(e.getMessage(), e);

@@ -1,8 +1,10 @@
 package com.javarush.kazakov.controller;
 
+import com.javarush.kazakov.config.Winter;
 import com.javarush.kazakov.entity.Result;
 import com.javarush.kazakov.entity.User;
 import com.javarush.kazakov.service.UserService;
+import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,6 +15,13 @@ import java.io.IOException;
 
 @WebServlet("/result")
 public class ResultController extends HttpServlet {
+    UserService userService;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        userService = Winter.find(UserService.class);
+    }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Object resultObj = req.getSession().getAttribute("result");
@@ -33,7 +42,6 @@ public class ResultController extends HttpServlet {
                     .image(user.getImage())
                     .questQuantity(user.getQuestQuantity())
                     .build();
-            UserService userService = new UserService();
             userService.update(userUpdated);
             req.getSession().setAttribute("user", userService.get(userUpdated.getLogin()));
         }

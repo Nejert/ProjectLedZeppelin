@@ -18,6 +18,7 @@ import java.util.List;
 public class QuestReader {
 
     public Quest read(String questName) {
+        log.trace("Reading quest '{}'", questName);
         String dbQuestName = getDBQuestName(questName.toLowerCase());
         Quest quest = null;
         if (dbQuestName != null) {
@@ -30,42 +31,28 @@ public class QuestReader {
     }
 
     private String getDBQuestName(String questName) {
+        log.trace("Getting quest name from database");
         String sql = """
                 SELECT TITLE FROM QUESTS.QUEST WHERE LOWER(TITLE) LIKE ?
                 """;
         try (Connection connection = DB.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, questName);
+            log.trace("Executing statement '{}'", statement);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                return resultSet.getString("TITLE");
+                String title = resultSet.getString("TITLE");
+                log.trace("Returning value '{}'", title);
+                return title;
             }
         } catch (SQLException e) {
-            String message = "SQL Error at fetching db quest's name";
-            log.error("{} '{}'", message, questName);
-            throw new QuestSQLException(message, e);
+            throw new QuestSQLException("SQL Error at fetching db quest's name", e);
         }
         return null;
     }
 
-    @Deprecated
-    private boolean isQuestExists(String questName) {
-        String sql = """
-                SELECT ID FROM QUESTS.QUEST WHERE TITLE = ?
-                """;
-        try (Connection connection = DB.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, questName);
-            if (!statement.executeQuery().next()) {
-                return false;
-            }
-        } catch (SQLException e) {
-            throw new QuestSQLException("SQL Error at checking quests existence", e);
-        }
-        return true;
-    }
-
     private int getFirstQuestionId(String dbQuestName) {
+        log.trace("Getting current (first/start) question id from database for quest {}", dbQuestName);
         String sql = """
                 SELECT QUESTION_ID
                 FROM QUESTS.QUEST JOIN QUESTS.QUEST_FIRST_QUESTION
@@ -76,9 +63,11 @@ public class QuestReader {
         try (Connection connection = DB.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, dbQuestName);
+            log.trace("Executing statement '{}'", statement);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                return resultSet.getInt(1);
+                int id = resultSet.getInt(1);
+                return id;
             }
         } catch (SQLException e) {
             throw new QuestSQLException("SQL Error at fetching first question", e);
@@ -87,6 +76,7 @@ public class QuestReader {
     }
 
     private Question getQuestion(int id) {
+        log.trace("Getting question text by id '{}'", id);
         String sql = """
                 SELECT TITLE
                 FROM QUESTS.QUESTION
@@ -95,9 +85,14 @@ public class QuestReader {
         try (Connection connection = DB.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
+            log.trace("Executing statement '{}'", statement);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                return new Question(resultSet.getString(1), getAnswers(id));
+                String title = resultSet.getString(1);
+                log.trace("Returned value '{}'", title);
+                Question question = new Question(title, getAnswers(id));
+                log.debug("Returning question object: '{}'", question);
+                return question;
             }
         } catch (SQLException e) {
             throw new QuestSQLException("SQL Error at fetching question", e);
@@ -106,6 +101,7 @@ public class QuestReader {
     }
 
     private List<Answer> getAnswers(int id) {
+        log.trace("Getting list of answers by question id '{}'", id);
         String sql = """
                 SELECT ID, TITLE, NEXT.QUESTION_ID
                 FROM (QUESTS.ANSWER JOIN QUESTS.QUESTION_ANSWER ON QUESTS.ANSWER.ID = QUESTS.QUESTION_ANSWER.ANSWER_ID)
@@ -116,26 +112,34 @@ public class QuestReader {
         try (Connection connection = DB.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
+            log.trace("Executing statement '{}'", statement);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                String answer = resultSet.getString(2);
+                int answerId = resultSet.getInt(1);
+                log.trace("Returned answer id '{}'", answerId);
+                String text = resultSet.getString(2);
+                log.trace("Returned answer text '{}'", text);
                 String nextQuestionId = resultSet.getString(3);
+                log.trace("Returned next question id '{}'", nextQuestionId);
+                Answer answer;
                 if (nextQuestionId != null) {
                     int nextId = Integer.parseInt(nextQuestionId);
-                    answers.add(new Answer(answer, getQuestion(nextId), null));
+                    answer = new Answer(text, getQuestion(nextId), null);
                 } else {
-                    int answerId = Integer.parseInt(resultSet.getString(1));
-                    answers.add(new Answer(answer, null, getResult(answerId)));
+                    answer = new Answer(text, null, getResult(answerId));
                 }
-
+                log.trace("Adding answer to answers list: {}", answer);
+                answers.add(answer);
             }
         } catch (SQLException e) {
             throw new QuestSQLException("SQL Error at fetching answers", e);
         }
+        log.trace("Returning answers list: {}", answers);
         return answers;
     }
 
     private Result getResult(int id) {
+        log.trace("Getting result text by answer id '{}'", id);
         String sql = """
                 SELECT TITLE, VICTORY
                 FROM QUESTS.RESULT JOIN QUESTS.ANSWER_RESULT
@@ -145,9 +149,16 @@ public class QuestReader {
         try (Connection connection = DB.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
+            log.trace("Executing statement '{}'", statement);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                return new Result(resultSet.getString(1), resultSet.getBoolean(2));
+                String title = resultSet.getString(1);
+                log.trace("Returned result text '{}'", title);
+                boolean isVictory = resultSet.getBoolean(2);
+                log.trace("Returned result victory flag '{}'", isVictory);
+                Result result = new Result(title, isVictory);
+                log.trace("Returning result '{}'", result);
+                return result;
             }
         } catch (SQLException e) {
             throw new QuestSQLException("SQL Error at fetching end result", e);

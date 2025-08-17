@@ -24,8 +24,8 @@ public class RemoveQuestTest {
             System.out.println(e.getMessage());
         }
 
-        QuestRemover questRemover = new QuestRemover(QUEST_NAME);
-        questRemover.remove();
+        QuestRemover questRemover = new QuestRemover();
+        questRemover.remove(QUEST_NAME);
 
         QuestReader questReader = new QuestReader();
         assertNull(questReader.read(QUEST_NAME));

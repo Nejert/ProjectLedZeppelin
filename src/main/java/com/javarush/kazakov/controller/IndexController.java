@@ -1,5 +1,6 @@
 package com.javarush.kazakov.controller;
 
+import com.javarush.kazakov.config.Winter;
 import com.javarush.kazakov.service.QuestService;
 import com.javarush.kazakov.service.UserService;
 import jakarta.servlet.ServletConfig;
@@ -21,7 +22,7 @@ public class IndexController extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        questService = new QuestService();
+        questService = Winter.find(QuestService.class);
     }
 
     @Override

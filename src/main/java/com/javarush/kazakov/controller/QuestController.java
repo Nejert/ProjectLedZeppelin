@@ -1,8 +1,10 @@
 package com.javarush.kazakov.controller;
 
+import com.javarush.kazakov.config.Winter;
 import com.javarush.kazakov.entity.Answer;
 import com.javarush.kazakov.entity.Quest;
 import com.javarush.kazakov.service.QuestService;
+import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,6 +17,13 @@ import java.io.IOException;
 @Slf4j
 @WebServlet("/quest/*")
 public class QuestController extends HttpServlet {
+    private QuestService questService;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        questService = Winter.find(QuestService.class);
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -33,7 +42,7 @@ public class QuestController extends HttpServlet {
             req.getRequestDispatcher("/").forward(req, resp);
         } else {
             String questName = req.getPathInfo().replaceAll("[/-]", " ").trim();
-            Quest quest = new QuestService().get(questName);
+            Quest quest = questService.get(questName);
             if (quest == null) {
                 String message = "Quest '%s' not found".formatted(questName);
                 log.warn(message);
