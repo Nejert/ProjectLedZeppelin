@@ -1,3 +1,5 @@
+import * as Param from "./param.js";
+
 function getQuestNode(value = "") {
     let li = document.createElement('li');
     li.id = "quest-name";

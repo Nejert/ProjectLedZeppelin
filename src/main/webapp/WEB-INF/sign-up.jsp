@@ -1,3 +1,4 @@
+<%@ page import="com.javarush.kazakov.config.constants.Param" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@include file="parts/header.jsp" %>
 <section class="position-relative py-4 py-xl-5">
@@ -15,14 +16,14 @@
                               method="post" enctype="multipart/form-data">
                             <img id="avatar" class="rounded-circle"
                                  src="${pageContext.request.contextPath}/images/no-image.png"
-                                 width="150" height="150" onclick="loadImage()" style="cursor: pointer;">
-                            <input id="imageFile" name="imageFile" class="form-control invisible" type="file"
+                                 width="150" height="150" style="cursor: pointer;">
+                            <input id="<%=Param.IMAGE_FILE%>" name="<%=Param.IMAGE_FILE%>" class="form-control invisible" type="file"
                                    accept="image/*" style="height: 0;"/>
                             <div class="mb-3">
-                                <input class="form-control" type="text" name="login" placeholder="Login">
+                                <input class="form-control" type="text" name="<%=Param.LOGIN%>" placeholder="Login">
                             </div>
                             <div class="mb-3">
-                                <input class="form-control" type="password" name="password" placeholder="Password">
+                                <input class="form-control" type="password" name="<%=Param.PASSWORD%>" placeholder="Password">
                             </div>
                             <div class="mb-3">
                                 <button class="btn btn-primary d-block w-100" type="submit" style="margin-right: 132px;">SignUp</button>

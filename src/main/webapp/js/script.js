@@ -1,11 +1,13 @@
-function changeAvatar(){
+import * as Param from "./param.js";
+
+function changeAvatar() {
     const form = document.getElementById('changeForm');
     if (form) {
         form.remove();
     } else {
         const formString = `
     <form id="changeForm" method="post" enctype="multipart/form-data">
-        <input name="changeImage" class="form-control" type="file" accept="image/*" />
+        <input name="${Param.CHANGE_IMAGE}" class="form-control" type="file" accept="image/*" />
         <button class="btn btn-primary" type="submit">Apply</button>
     </form>
     `;
@@ -21,8 +23,8 @@ function changeLogin() {
     } else {
         const formString = `
         <form id="changeForm" class="d-flex" method="post">
-            <input type="hidden" name="change" value="login"/>
-            <input id="newLogin" name="newLogin" class="form-control" type="text" style="margin-right: 5px;" placeholder="New login" />
+            <input type="hidden" name="${Param.CHANGE}" value="${Param.LOGIN}"/>
+            <input id="${Param.NEW_LOGIN}" name="${Param.NEW_LOGIN}" class="form-control" type="text" style="margin-right: 5px;" placeholder="New login" />
             <button class="btn btn-primary" type="submit">Apply</button>
         </form>`;
         let changeLoginAnchor = document.getElementById('changeLoginAnchor');
@@ -37,9 +39,9 @@ function changePassword() {
     } else {
         const formString = `
         <form id="changeForm" method="post">
-            <input type="hidden" name="change" value="password"/>
-            <input id="oldPassword" name="oldPassword" class="form-control" type="password" placeholder="Old password" />
-            <input id="newPassword" name="newPassword" class="form-control" type="password" placeholder="New password" />
+            <input type="hidden" name="${Param.CHANGE}" value="${Param.PASSWORD}"/>
+            <input id="${Param.PASSWORD}" name="${Param.PASSWORD}" class="form-control" type="password" placeholder="Password" />
+            <input id="${Param.NEW_PASSWORD}" name="${Param.NEW_PASSWORD}" class="form-control" type="password" placeholder="New password" />
             <button class="btn btn-primary" type="submit">Apply</button>
         </form>`;
         let changePasswordAnchor = document.getElementById('changePasswordAnchor');
@@ -54,12 +56,12 @@ function deleteProfile() {
     } else {
         const alertString = `
         <form id="changeForm" method="post">
-            <input type="hidden" name="change" value="delete"/>
+            <input type="hidden" name="${Param.CHANGE}" value="${Param.DELETE}"/>
             <div class="alert alert-success" role="alert" style="background: var(--bs-orange);margin-bottom: 0px;padding: 7px;">
                 <span><strong>Are you sure?</strong></span>
             <div>
-                <button name="yes" class="btn btn-primary" type="submit" style="background: var(--bs-danger);margin-right: 7px;">Yes</button>
-                <button name="no" class="btn btn-primary" type="submit">No</button>
+                <button name="${Param.YES}" class="btn btn-primary" type="submit" style="background: var(--bs-danger);margin-right: 7px;">Yes</button>
+                <button name="${Param.NO}" class="btn btn-primary" type="submit">No</button>
             </div>
         </div>
         </form>`;
@@ -69,7 +71,7 @@ function deleteProfile() {
 }
 
 function loadImage() {
-    let imageFile = document.getElementById('imageFile');
+    let imageFile = document.getElementById(Param.IMAGE_FILE);
     imageFile.click();
     imageFile.onchange = (ev) => {
         let fileReader = new FileReader();
@@ -89,3 +91,16 @@ function signOut() {
         body: 'signOut=true'
     });
 }
+
+function setOnClick(elementId, func) {
+    let element = document.getElementById(elementId);
+    if (element !== null) {
+        element.onclick = func;
+    }
+}
+
+setOnClick("changeAvatarAnchor", changeAvatar);
+setOnClick("changeLoginAnchor", changeLogin);
+setOnClick("changePasswordAnchor", changePassword);
+setOnClick("deleteProfile", deleteProfile);
+setOnClick("avatar", loadImage);

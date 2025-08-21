@@ -8,7 +8,7 @@
     </div>
     <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3">
         <%
-            Object quests = session.getAttribute("questAuthorMap");
+            Object quests = session.getAttribute(Attr.QUEST_AUTHOR_MAP);
             if (quests != null) {
                 Map<String, String> questAuthorMap = (Map<String, String>) quests;
                 for (Map.Entry<String, String> questAuthor : questAuthorMap.entrySet()) {

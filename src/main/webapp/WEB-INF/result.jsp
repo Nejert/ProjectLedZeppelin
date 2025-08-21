@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@include file="parts/header.jsp"%>
 <%
-    Object resultObj = session.getAttribute("result");
+    Object resultObj = session.getAttribute(Attr.RESULT);
     Result result = null;
     if (resultObj != null) {
         result = (Result) resultObj;

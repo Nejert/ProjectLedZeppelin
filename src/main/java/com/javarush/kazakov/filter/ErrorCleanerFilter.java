@@ -1,5 +1,6 @@
 package com.javarush.kazakov.filter;
 
+import com.javarush.kazakov.config.constants.Attr;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebFilter;
@@ -18,12 +19,11 @@ public class ErrorCleanerFilter extends HttpFilter {
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
         chain.doFilter(req, res);
-        log.trace("Getting session");
         HttpSession session = req.getSession(false);
-        if (req.getMethod().equals("GET") && session != null) {
-            log.trace("Removing session attribute '{}'", "errorMessage");
-            session.removeAttribute("errorMessage");
-        } else {
+        if (req.getMethod().equals("GET") && session != null && session.getAttribute(Attr.ERROR_MESSAGE) != null) {
+            log.trace("Removing session attribute '{}'", Attr.ERROR_MESSAGE);
+            session.removeAttribute(Attr.ERROR_MESSAGE);
+        } else if (session == null){
             log.trace("Session is null, continue");
         }
     }

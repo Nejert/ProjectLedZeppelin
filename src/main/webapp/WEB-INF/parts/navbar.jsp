@@ -28,7 +28,7 @@
 
         <div class="d-flex align-items-center">
             <%
-                Object userObj = session.getAttribute("user");
+                Object userObj = session.getAttribute(Attr.USER);
                 User user = null;
                 if (userObj == null) {
             %>

@@ -22,13 +22,11 @@ public class DB {
     private final Path dbPath;
 
     private DB() {
-
         try {
             Class.forName(DRIVER);
             log.info("Loaded H2 database driver: {}", DRIVER);
         } catch (ClassNotFoundException e) {
-            log.error("Could not load H2 database driver: {} -> {}", DRIVER, e.getMessage());
-            throw new RuntimeException(e);
+            throw new QuestException("Could not load H2 database driver: %s".formatted(DRIVER), e);
         }
         try {
             dbPath = Path.of(DB.class.getProtectionDomain().getCodeSource().getLocation().toURI())

@@ -1,8 +1,9 @@
+<%@ page import="com.javarush.kazakov.config.constants.Attr" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 </main>
 <%
-    Object errorMessage = session.getAttribute("errorMessage");
-    if (session.getAttribute("errorMessage") != null) {
+    Object errorMessage = session.getAttribute(Attr.ERROR_MESSAGE);
+    if (errorMessage != null) {
 %>
 <div class="alert alert-success" role="alert"
      style="margin-bottom: 0;padding: 3px;background: var(--bs-orange);border-style: none;">
@@ -53,6 +54,6 @@
     </div>
 </footer>
 <script src="${pageContext.request.contextPath}/assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="${pageContext.request.contextPath}/js/script.js"></script>
+<script type="module" src="${pageContext.request.contextPath}/js/script.js"></script>
 </body>
 </html>

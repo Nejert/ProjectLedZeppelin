@@ -3,7 +3,7 @@
 <%@ page import="java.util.List" %>
 <%@include file="parts/header.jsp" %>
 <%
-    Object questObj = session.getAttribute("quest");
+    Object questObj = session.getAttribute(Attr.QUEST);
     Quest quest = null;
     if (questObj != null) {
         quest = (Quest) questObj;

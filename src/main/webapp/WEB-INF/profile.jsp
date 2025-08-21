@@ -15,11 +15,10 @@
                     <h5 class="fw-bold text-primary card-title mb-0"><strong><%=user.getLogin()%>
                     </strong></h5>
                     <div class="d-flex flex-column">
-<%--                        TODO: implement avatar changing--%>
-                        <a id="changeAvatarAnchor" href="#" onclick="changeAvatar()">Change avatar</a>
-                        <a id="changeLoginAnchor" href="#" onclick="changeLogin()">Change login</a>
-                        <a id="changePasswordAnchor" href="#" onclick="changePassword()">Change password</a>
-                        <a id="deleteProfile" href="#" onclick="deleteProfile()">Delete profile</a>
+                        <a id="changeAvatarAnchor" href="#">Change avatar</a>
+                        <a id="changeLoginAnchor" href="#">Change login</a>
+                        <a id="changePasswordAnchor" href="#">Change password</a>
+                        <a id="deleteProfile" href="#">Delete profile</a>
                         <form id="signOutProf" action="sign-out" method="post">
                         <a href="#" onclick="document.getElementById('signOutProf').submit();" style="color: var(--bs-red);">SignOut</a>
                         </form>

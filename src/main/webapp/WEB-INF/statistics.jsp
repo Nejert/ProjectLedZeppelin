@@ -1,6 +1,7 @@
 <%@ page import="com.javarush.kazakov.service.UserService" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.javarush.kazakov.entity.UserRole" %>
+<%@ page import="com.javarush.kazakov.config.Winter" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@include file="parts/header.jsp" %>
 <div class="container">
@@ -11,7 +12,7 @@
     </div>
 </div>
 <%
-    UserService userService = new UserService();
+    UserService userService = Winter.find(UserService.class);
     List<User> users = userService.getAll();
     for (User list : users) {
 %>

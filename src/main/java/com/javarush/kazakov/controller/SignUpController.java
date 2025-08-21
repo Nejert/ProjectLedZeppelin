@@ -1,6 +1,10 @@
 package com.javarush.kazakov.controller;
 
 import com.javarush.kazakov.config.Winter;
+import com.javarush.kazakov.config.constants.Attr;
+import com.javarush.kazakov.config.constants.Loc;
+import com.javarush.kazakov.config.constants.LocJSP;
+import com.javarush.kazakov.config.constants.Param;
 import com.javarush.kazakov.entity.User;
 import com.javarush.kazakov.entity.UserRole;
 import com.javarush.kazakov.service.ImageService;
@@ -13,36 +17,50 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
+@Slf4j
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024 * 2, // 2 MB
         maxFileSize = 1024 * 1024 * 10,      // 10 MB
         maxRequestSize = 1024 * 1024 * 50    // 50 MB
 )
-@WebServlet("/sign-up")
+@WebServlet(Loc.SIGN_UP)
 public class SignUpController extends HttpServlet {
     ImageService imageService;
+    UserService userService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
+        log.trace("Initializing Servlet");
         super.init(config);
         imageService = Winter.find(ImageService.class);
+        userService = Winter.find(UserService.class);
+    }
+
+    @Override
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        log.trace("URI:{} -> method:{}", req.getRequestURI(), req.getMethod());
+        super.service(req, resp);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        req.getRequestDispatcher("/WEB-INF/sign-up.jsp").forward(req, resp);
+        log.trace("Forwarding to '{}'", LocJSP.SIGN_UP);
+        req.getRequestDispatcher(LocJSP.SIGN_UP).forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Part imagePart = req.getPart("imageFile");
-        String login = req.getParameter("login");
-        String password = req.getParameter("password");
+        Part imagePart = req.getPart(Param.IMAGE_FILE);
+        String login = req.getParameter(Param.LOGIN);
+        log.trace("Returned parameter: '{}', value: '{}'", Param.LOGIN, login);
+        String password = req.getParameter(Param.PASSWORD);
+        log.trace("Returned parameter: '{}', value: '{}'", Param.PASSWORD, password);
         String imageName = imageService.loadImage(login, imagePart);
+        log.trace("New user image filename: '{}'", imageName);
         User user = User.builder()
                 .login(login)
                 .password(password)
@@ -51,9 +69,10 @@ public class SignUpController extends HttpServlet {
                 .defeat(0)
                 .image(imageName)
                 .build();
-        UserService userService = new UserService();
         userService.create(user);
-        req.getSession().setAttribute("user", user);
+        log.trace("Setting session attribute '{}' to '{}'", Attr.USER, user);
+        req.getSession().setAttribute(Attr.USER, user);
+        log.trace("Redirecting to '/' page");
         resp.sendRedirect("/");
     }
 }
