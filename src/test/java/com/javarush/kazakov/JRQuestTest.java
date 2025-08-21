@@ -1,11 +1,13 @@
 package com.javarush.kazakov;
 
+import com.javarush.kazakov.config.Winter;
 import com.javarush.kazakov.entity.Answer;
 import com.javarush.kazakov.entity.Quest;
 import com.javarush.kazakov.entity.Question;
 import com.javarush.kazakov.entity.Result;
 import com.javarush.kazakov.repository.DB;
 import com.javarush.kazakov.repository.QuestReader;
+import com.javarush.kazakov.service.QuestService;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,8 +18,8 @@ public class JRQuestTest {
 
     @BeforeAll
     public static void setUp() {
-        DB.getInstance();
-        quest = new QuestReader().read("JavaRush Quest");
+        DB.getInstance().restoreDefaultDBFile();
+        quest = Winter.find(QuestService.class).get("JavaRush Quest");
     }
 
     @Test

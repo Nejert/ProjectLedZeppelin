@@ -38,6 +38,7 @@ public class DB {
     }
 
     private void generateDefaultDB(String... scriptName) {
+        log.info("Generating default database...");
         Path scriptPath = null;
         for (String script : scriptName) {
             try {
@@ -53,6 +54,18 @@ public class DB {
             } catch (IOException | SQLException e) {
                 throw new QuestException("Unable to read default SQL script '%s'".formatted(scriptPath), e);
             }
+        }
+    }
+
+    public void restoreDefaultDBFile() {
+        log.trace("Restoring default database state");
+        try {
+            if (Files.deleteIfExists(dbPath)){
+                log.info("Deleted H2 database file: {}", dbPath);
+                instance.generateDefaultDB(INIT_USERS_SCHEMA_SQL, INIT_QUESTS_SCHEMA_SQL);
+            }
+        } catch (IOException e) {
+            throw new QuestException("Unable to delete db file '%s%s'".formatted(FILE_NAME, DB_EXTENSION), e);
         }
     }
 

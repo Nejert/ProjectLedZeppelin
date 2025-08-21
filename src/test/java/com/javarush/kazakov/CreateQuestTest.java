@@ -1,10 +1,12 @@
 package com.javarush.kazakov;
 
+import com.javarush.kazakov.config.Winter;
 import com.javarush.kazakov.entity.*;
 import com.javarush.kazakov.exception.QuestException;
 import com.javarush.kazakov.repository.DB;
 import com.javarush.kazakov.repository.QuestReader;
 import com.javarush.kazakov.repository.QuestWriter;
+import com.javarush.kazakov.service.QuestService;
 import com.javarush.kazakov.service.UserService;
 import org.junit.jupiter.api.*;
 
@@ -14,23 +16,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CreateQuestTest {
-
     public static Quest testQuest;
     public static Quest DBTestQuest;
 
     @BeforeAll
     public static void setUp() {
-        DB.getInstance();
+        DB.getInstance().restoreDefaultDBFile();
         testQuest = getTestQuest();
-        User admin = new UserService().get("Admin");
-        QuestWriter qw = new QuestWriter();
-        try {
-            qw.write(admin, testQuest);
-        } catch (QuestException e) {
-            System.out.println(e.getMessage());
-        }
-        QuestReader qr = new QuestReader();
-        DBTestQuest = qr.read(QUEST_NAME);
+        User admin = Winter.find(UserService.class).get("admin");
+        QuestService questService = Winter.find(QuestService.class);
+        questService.create(admin, testQuest);
+        DBTestQuest = questService.get(QUEST_NAME);
     }
 
 

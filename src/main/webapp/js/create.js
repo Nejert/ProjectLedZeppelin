@@ -199,6 +199,7 @@ class Result {
 
 function initTest() {
     let root = document.getElementById("root");
+    root.innerHTML = '';
     let questNode = getQuestNode("JavaRush Quest EN");
     root.append(questNode);
     let firstQuestion = getQuestionNode("You've lost your memory. Do you accept the UFO call?", [
@@ -218,9 +219,9 @@ function init() {
     let root = document.getElementById("root");
     root.append(getQuestNode());
     root.append(getQuestionNode());
+    document.getElementById("confirm").onclick = gatherData;
+    document.getElementById("template").onclick = initTest;
 }
 
-//initTest();
 init();
-let confirmButton = document.getElementById("confirm");
-confirmButton.onclick = gatherData;
+

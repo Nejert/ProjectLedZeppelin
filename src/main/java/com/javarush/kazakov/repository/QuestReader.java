@@ -25,7 +25,7 @@ public class QuestReader {
             quest = new Quest(dbQuestName, getQuestion(getFirstQuestionId(dbQuestName)));
             log.trace("Returns quest '{}'", quest.getQuestName());
         } else {
-            log.warn("No quest found for {}", questName);
+            log.warn("No quest found for '{}'", questName);
         }
         return quest;
     }

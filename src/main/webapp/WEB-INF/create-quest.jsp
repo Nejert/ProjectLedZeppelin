@@ -2,6 +2,7 @@
 <%@include file="parts/header.jsp" %>
 <h1 class="text-center text-light">Create quest</h1>
 <div class="container d-flex flex-column justify-content-center align-items-center justify-content-xl-center">
+    <a id="template" href="#">load template</a>
     <ul id="root">
     <%--Generated content--%>
     </ul>
