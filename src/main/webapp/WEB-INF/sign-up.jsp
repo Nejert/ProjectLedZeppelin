@@ -16,6 +16,7 @@
                               method="post" enctype="multipart/form-data">
                             <img id="avatar" class="rounded-circle"
                                  src="${pageContext.request.contextPath}/images/no-image.png"
+                                 alt="/images/no-image.png"
                                  width="150" height="150" style="cursor: pointer;">
                             <input id="<%=Param.IMAGE_FILE%>" name="<%=Param.IMAGE_FILE%>" class="form-control invisible" type="file"
                                    accept="image/*" style="height: 0;"/>

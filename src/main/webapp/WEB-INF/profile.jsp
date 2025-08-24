@@ -11,7 +11,7 @@
             <div class="card border-0 shadow-none">
                 <div class="card-body text-center text-light text-bg-dark d-flex flex-column align-items-center p-0">
                     <img class="rounded-circle mb-3 fit-cover" width="130" height="130"
-                         src="images/<%=user.getImage()%>">
+                         src="images/<%=user.getImage()%>" alt="/images/no-image.png">
                     <h5 class="fw-bold text-primary card-title mb-0"><strong><%=user.getLogin()%>
                     </strong></h5>
                     <div class="d-flex flex-column">

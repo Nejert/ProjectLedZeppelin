@@ -67,6 +67,7 @@ public class QuestReader {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 int id = resultSet.getInt(1);
+                log.trace("Returning question id '{}'", id);
                 return id;
             }
         } catch (SQLException e) {

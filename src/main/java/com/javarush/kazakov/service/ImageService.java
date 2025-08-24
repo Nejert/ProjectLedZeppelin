@@ -30,7 +30,7 @@ public class ImageService {
         try {
             imageFilePath = Path.of(classes.toURI()).getParent().getParent().resolve(IMAGES_FOLDER);
             log.trace("Image loads to {}", imageFilePath);
-        } catch (URISyntaxException e) {
+        } catch (URISyntaxException | NullPointerException e) {
             throw new QuestException("Could not find image folder", e);
         }
         String submittedFileName = imageParts.getSubmittedFileName();

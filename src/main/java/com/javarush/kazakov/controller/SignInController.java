@@ -6,7 +6,6 @@ import com.javarush.kazakov.config.constants.Loc;
 import com.javarush.kazakov.config.constants.LocJSP;
 import com.javarush.kazakov.config.constants.Param;
 import com.javarush.kazakov.entity.User;
-import com.javarush.kazakov.service.ImageService;
 import com.javarush.kazakov.service.UserService;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;

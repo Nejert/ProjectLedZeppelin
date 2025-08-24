@@ -40,7 +40,7 @@
             %>
             <div class="d-flex align-items-center" style="padding-right: 5px;">
                 <img class="rounded-circle" width="32" height="32"
-                     src="/images/<%=user.getImage()%>"/>
+                     src="/images/<%=user.getImage()%>" alt="/images/no-image.png"/>
                 <a href="${pageContext.request.contextPath}/profile">
                     <h5 class="fw-bold text-primary mb-0"><strong><%=user.getLogin()%>
                     </strong></h5>

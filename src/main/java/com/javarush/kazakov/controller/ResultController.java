@@ -42,7 +42,7 @@ public class ResultController extends HttpServlet {
         log.trace("Victory: {}", isVictory);
         log.trace("Getting session attribute '{}'", Attr.USER);
         Object userObj = req.getSession().getAttribute(Attr.USER);
-        User user = null;
+        User user;
         if (userObj != null) {
             user = (User) userObj;
             log.trace("'{}' is '{}'", Attr.USER, user);

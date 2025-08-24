@@ -167,7 +167,7 @@ public class UserService {
     }
 
     public void delete(User user) {
-        log.trace("Deletting user '{}'", user);
+        log.trace("User removal '{}'", user);
         String sql = "DELETE FROM USERS.USER_ WHERE LOGIN = ?";
         try (Connection connection = DB.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);

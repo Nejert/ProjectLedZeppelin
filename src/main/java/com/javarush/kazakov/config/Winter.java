@@ -1,7 +1,6 @@
 package com.javarush.kazakov.config;
 
 import com.javarush.kazakov.exception.QuestException;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Constructor;
@@ -9,7 +8,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 public class Winter {
@@ -29,7 +27,7 @@ public class Winter {
             for (int i = 0; i < parameters.length; i++) {
                 parameters[i] = Winter.find(parameterTypes[i]);
             }
-            Object newInstance = null;
+            Object newInstance;
             log.trace("Trying to instantiate component {}", aClass.getSimpleName());
             try {
                 newInstance = constructor.newInstance(parameters);

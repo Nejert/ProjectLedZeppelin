@@ -22,7 +22,7 @@
             <%if (user.getRole() == UserRole.ADMIN) {%>
             <div class="w-100"><a href="#">Edit</a></div>
             <%}%>
-            <img class="rounded-circle" src="images/<%=list.getImage()%>" width="48" height="48">
+            <img class="rounded-circle" src="images/<%=list.getImage()%>" alt="/images/no-image.png" width="48" height="48">
             <h4 class="fw-bold mb-0"><%=list.getLogin()%>
             </h4>
             <p class="mb-0">User</p>

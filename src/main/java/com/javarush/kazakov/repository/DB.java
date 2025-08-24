@@ -39,7 +39,7 @@ public class DB {
 
     private void generateDefaultDB(String... scriptName) {
         log.info("Generating default database...");
-        Path scriptPath = null;
+        Path scriptPath;
         for (String script : scriptName) {
             try {
                 scriptPath = Path.of(DB.class.getProtectionDomain().getCodeSource().getLocation().toURI()).resolve(script);
