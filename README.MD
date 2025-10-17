@@ -23,6 +23,28 @@ Following quest structure from JavaRush was used:
 
 ![](https://cdn.javarush.com/images/article/718b7049-575a-4ad3-bd1c-8c7d548d81e5/1024.webp)
 
+# Updates after completing Module 4:
+1. Added dependencies:
+   - p6spy:p6spy
+   - org.postgresql:postgresql
+   - org.liquibase:liquibase-core
+   - org.hibernate.orm:hibernate-core
+   - jakarta.annotation:jakarta.annotation-api
+   - org.mapstruct:mapstruct
+   - org.mapstruct:mapstruct-processor
+   - org.projectlombok:lombok-mapstruct-binding
+   - org.testcontainers:postgresql
+2. Added database updates and migration using **Liquibase**.
+3. Added object-relational mapping via **Hibernate**.
+4. Added entity mapping to transfer objects via **MapStruct**.
+5. Added **env**ironment variables substitution in properties.
+6. Added option to build via **Dockerfile**.
+7. Added option to deploy using **Docker Compose**.
+
+### Build & run:
+     docker compose up
+Site will be available at link http://localhost:8080/
+
 > # Quest LedZeppelin
 >
 > ### Ребята и девчата, всем привет!

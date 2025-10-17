@@ -1,12 +1,12 @@
 package com.javarush.kazakov.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.javarush.kazakov.config.Winter;
+import com.javarush.kazakov.config.SessionFactory;
 import com.javarush.kazakov.config.constants.Attr;
 import com.javarush.kazakov.config.constants.Loc;
 import com.javarush.kazakov.config.constants.LocJSP;
-import com.javarush.kazakov.entity.Quest;
-import com.javarush.kazakov.entity.User;
+import com.javarush.kazakov.dto.quest.QuestTo;
+import com.javarush.kazakov.dto.user.UserTo;
 import com.javarush.kazakov.exception.QuestException;
 import com.javarush.kazakov.service.QuestService;
 import jakarta.servlet.ServletConfig;
@@ -23,14 +23,12 @@ import java.io.IOException;
 @Slf4j
 @WebServlet(Loc.CREATE_QUEST)
 public class CreateQuestController extends HttpServlet {
-    private QuestService questService;
     private ObjectMapper objectMapper;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         log.trace("Initializing Servlet");
         super.init(config);
-        questService = Winter.find(QuestService.class);
         objectMapper = new ObjectMapper();
     }
 
@@ -57,15 +55,16 @@ public class CreateQuestController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         log.trace("Getting session attribute: '{}'", Attr.USER);
-        User user = (User) req.getSession().getAttribute(Attr.USER);
+        UserTo user = (UserTo) req.getSession().getAttribute(Attr.USER);
         log.trace("'{}' is '{}'", Attr.USER, user);
         try (ServletInputStream questStream = req.getInputStream()) {
             log.trace("Content type: 'application/json'");
             log.trace("Object mapper reads request body");
-            Quest quest = objectMapper.readValue(questStream, Quest.class);
+            QuestTo quest = objectMapper.readValue(questStream, QuestTo.class);
             log.trace("Returned quest: {}", quest);
-            questService.create(user, quest);
-        } catch (Exception e) {
+            QuestService questService = new QuestService();
+            SessionFactory.executeInTransaction(() -> questService.create(quest, user));
+        } catch (IOException e) {
             throw new QuestException("Unable to read quest from request", e);
         }
         log.trace("Redirecting to '{}' page", Loc.RESULT);

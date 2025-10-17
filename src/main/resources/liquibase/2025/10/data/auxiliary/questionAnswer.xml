@@ -1,0 +1,34 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="insert-jru-question-answer" author="ikazakov">
+        <insert tableName="question_answer" schemaName="quests">
+            <column name="question_id">1</column>
+            <column name="answer_id">1</column>
+        </insert>
+        <insert tableName="question_answer" schemaName="quests">
+            <column name="question_id">1</column>
+            <column name="answer_id">2</column>
+        </insert>
+        <insert tableName="question_answer" schemaName="quests">
+            <column name="question_id">2</column>
+            <column name="answer_id">3</column>
+        </insert>
+        <insert tableName="question_answer" schemaName="quests">
+            <column name="question_id">2</column>
+            <column name="answer_id">4</column>
+        </insert>
+        <insert tableName="question_answer" schemaName="quests">
+            <column name="question_id">3</column>
+            <column name="answer_id">5</column>
+        </insert>
+        <insert tableName="question_answer" schemaName="quests">
+            <column name="question_id">3</column>
+            <column name="answer_id">6</column>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

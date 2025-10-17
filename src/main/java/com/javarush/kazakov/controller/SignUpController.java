@@ -1,12 +1,13 @@
 package com.javarush.kazakov.controller;
 
+import com.javarush.kazakov.config.SessionFactory;
 import com.javarush.kazakov.config.Winter;
 import com.javarush.kazakov.config.constants.Attr;
 import com.javarush.kazakov.config.constants.Loc;
 import com.javarush.kazakov.config.constants.LocJSP;
 import com.javarush.kazakov.config.constants.Param;
-import com.javarush.kazakov.entity.User;
-import com.javarush.kazakov.entity.UserRole;
+import com.javarush.kazakov.dto.user.UserTo;
+import com.javarush.kazakov.entity.user.Role;
 import com.javarush.kazakov.service.ImageService;
 import com.javarush.kazakov.service.UserService;
 import jakarta.servlet.ServletConfig;
@@ -30,14 +31,12 @@ import java.io.IOException;
 @WebServlet(Loc.SIGN_UP)
 public class SignUpController extends HttpServlet {
     ImageService imageService;
-    UserService userService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         log.trace("Initializing Servlet");
         super.init(config);
         imageService = Winter.find(ImageService.class);
-        userService = Winter.find(UserService.class);
     }
 
     @Override
@@ -61,15 +60,20 @@ public class SignUpController extends HttpServlet {
         log.trace("Returned parameter: '{}', value: '{}'", Param.PASSWORD, password);
         String imageName = imageService.loadImage(login, imagePart);
         log.trace("New user image filename: '{}'", imageName);
-        User user = User.builder()
-                .login(login)
-                .password(password)
-                .role(UserRole.USER)
-                .victory(0)
-                .defeat(0)
-                .image(imageName)
-                .build();
-        userService.create(user);
+        UserTo newUser = new UserTo(
+                null,
+                login,
+                password,
+                Role.USER,
+                0,
+                0,
+                imageName
+        );
+        UserService userService = new UserService();
+        UserTo user = SessionFactory.executeInTransaction(() -> {
+            userService.create(newUser);
+            return userService.get(login, password).orElseThrow();
+        });
         log.trace("Setting session attribute '{}' to '{}'", Attr.USER, user);
         req.getSession().setAttribute(Attr.USER, user);
         log.trace("Redirecting to '/' page");

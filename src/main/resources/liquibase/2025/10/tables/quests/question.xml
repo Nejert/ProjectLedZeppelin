@@ -1,0 +1,20 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet author="ikazakov" id="createTable-question">
+        <createTable tableName="question" schemaName="quests">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false"
+                             primaryKey="true"
+                             primaryKeyName="question_pkey"/>
+            </column>
+            <column name="title" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

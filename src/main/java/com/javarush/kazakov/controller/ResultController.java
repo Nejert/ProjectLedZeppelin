@@ -1,11 +1,11 @@
 package com.javarush.kazakov.controller;
 
-import com.javarush.kazakov.config.Winter;
+import com.javarush.kazakov.config.SessionFactory;
 import com.javarush.kazakov.config.constants.Attr;
 import com.javarush.kazakov.config.constants.Loc;
 import com.javarush.kazakov.config.constants.LocJSP;
-import com.javarush.kazakov.entity.Result;
-import com.javarush.kazakov.entity.User;
+import com.javarush.kazakov.dto.quest.ResultTo;
+import com.javarush.kazakov.dto.user.UserTo;
 import com.javarush.kazakov.service.UserService;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
@@ -20,13 +20,11 @@ import java.io.IOException;
 @Slf4j
 @WebServlet(Loc.RESULT)
 public class ResultController extends HttpServlet {
-    UserService userService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         log.trace("Initializing Servlet");
         super.init(config);
-        userService = Winter.find(UserService.class);
     }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -35,30 +33,35 @@ public class ResultController extends HttpServlet {
         Object resultObj = req.getSession().getAttribute(Attr.RESULT);
         boolean isVictory = false;
         if (resultObj != null) {
-            isVictory = ((Result) resultObj).isVictory();
+            isVictory = ((ResultTo) resultObj).victory();
         } else {
             log.trace("'{}' attribute is null", Attr.RESULT);
         }
         log.trace("Victory: {}", isVictory);
         log.trace("Getting session attribute '{}'", Attr.USER);
         Object userObj = req.getSession().getAttribute(Attr.USER);
-        User user;
+        UserTo user;
         if (userObj != null) {
-            user = (User) userObj;
+            user = (UserTo) userObj;
             log.trace("'{}' is '{}'", Attr.USER, user);
-            User userUpdated = User.builder()
-                    .login(user.getLogin())
-                    .password(user.getPassword())
-                    .role(user.getRole())
-                    .victory(isVictory ? user.getVictory() + 1 : user.getVictory())
-                    .defeat(isVictory ? user.getDefeat() : user.getDefeat() + 1)
-                    .image(user.getImage())
-                    .questQuantity(user.getQuestQuantity())
-                    .build();
-            userService.update(userUpdated);
-            User repoUpdatedUser = userService.get(userUpdated.getLogin());
-            log.trace("Setting session attribute '{}' to '{}'", Attr.USER, repoUpdatedUser);
-            req.getSession().setAttribute(Attr.USER, repoUpdatedUser);
+            int victory =isVictory ? user.victory() + 1 : user.victory();
+            int defeat =isVictory ? user.defeat() : user.defeat() + 1;
+            UserTo newUser = new UserTo(
+                    user.id(),
+                    user.login(),
+                    user.password(),
+                    user.role(),
+                    victory,
+                    defeat,
+                    user.image()
+            );
+            UserService userService = new UserService();
+            UserTo updatedUser = SessionFactory.executeInTransaction(() -> {
+                userService.update(newUser);
+                return userService.get(user.id()).orElseThrow();
+            });
+            log.trace("Setting session attribute '{}' to '{}'", Attr.USER, updatedUser);
+            req.getSession().setAttribute(Attr.USER, updatedUser);
         } else {
             log.trace("'{}' attribute is null", Attr.USER);
         }

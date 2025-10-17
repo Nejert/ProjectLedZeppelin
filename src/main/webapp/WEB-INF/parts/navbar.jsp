@@ -1,4 +1,4 @@
-<%@ page import="com.javarush.kazakov.entity.User" %>
+<%@ page import="com.javarush.kazakov.dto.user.UserTo" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%
     String requestURI = request.getRequestURI();
@@ -29,20 +29,20 @@
         <div class="d-flex align-items-center">
             <%
                 Object userObj = session.getAttribute(Attr.USER);
-                User user = null;
+                UserTo user = null;
                 if (userObj == null) {
             %>
             <a class="btn btn-light me-2" role="button" href="${pageContext.request.contextPath}/sign-in">SignIn</a>
             <a class="btn btn-primary" role="button" href="${pageContext.request.contextPath}/sign-up">SignUp</a>
             <%
             } else {
-                user = (User) userObj;
+                user = (UserTo) userObj;
             %>
             <div class="d-flex align-items-center" style="padding-right: 5px;">
                 <img class="rounded-circle" width="32" height="32"
-                     src="/images/<%=user.getImage()%>" alt="/images/no-image.png"/>
+                     src="/images/<%=user.image()%>" alt="/images/no-image.png"/>
                 <a href="${pageContext.request.contextPath}/profile">
-                    <h5 class="fw-bold text-primary mb-0"><strong><%=user.getLogin()%>
+                    <h5 class="fw-bold text-primary mb-0"><strong><%=user.login()%>
                     </strong></h5>
                 </a>
             </div>

@@ -1,0 +1,19 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="insert-jru-questions" author="ikazakov">
+        <insert tableName="question" schemaName="quests">
+            <column name="title">Ты потерял память. Принять вызов НЛО?</column>
+        </insert>
+        <insert tableName="question" schemaName="quests">
+            <column name="title">Ты принял вызов. Поднимаешься на мостик к капитану?</column>
+        </insert>
+        <insert tableName="question" schemaName="quests">
+            <column name="title">Ты поднялся на мостик. Ты кто?</column>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

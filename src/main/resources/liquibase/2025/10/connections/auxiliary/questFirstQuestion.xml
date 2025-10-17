@@ -1,0 +1,26 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet author="ikazakov" id="add-fk-constraint-to-quest-first-question">
+        <addForeignKeyConstraint baseTableSchemaName="quests"
+                                 baseTableName="quest_first_question"
+                                 baseColumnNames="quest_id"
+                                 referencedTableSchemaName="quests"
+                                 referencedTableName="quest"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_quest_first_question_quest"
+                                 onDelete="CASCADE"/>
+        <addForeignKeyConstraint baseTableSchemaName="quests"
+                                 baseTableName="quest_first_question"
+                                 baseColumnNames="question_id"
+                                 referencedTableSchemaName="quests"
+                                 referencedTableName="question"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_quest_first_question_question"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+
+</databaseChangeLog>

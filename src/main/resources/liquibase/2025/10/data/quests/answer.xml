@@ -1,0 +1,28 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="insert-jru-answers" author="ikazakov">
+        <insert tableName="answer" schemaName="quests">
+            <column name="title">Отклонить вызов</column>
+        </insert>
+        <insert tableName="answer" schemaName="quests">
+            <column name="title">Принять вызов</column>
+        </insert>
+        <insert tableName="answer" schemaName="quests">
+            <column name="title">Отказаться подниматься на мостик</column>
+        </insert>
+        <insert tableName="answer" schemaName="quests">
+            <column name="title">Подняться на мостик</column>
+        </insert>
+        <insert tableName="answer" schemaName="quests">
+            <column name="title">Солгать о себе</column>
+        </insert>
+        <insert tableName="answer" schemaName="quests">
+            <column name="title">Рассказать правду о себе</column>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

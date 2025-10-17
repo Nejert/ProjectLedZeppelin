@@ -1,0 +1,26 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="insert-jru-results" author="ikazakov">
+        <insert tableName="result" schemaName="quests">
+            <column name="title">Тебя вернули домой. Победа</column>
+            <column name="victory">true</column>
+        </insert>
+        <insert tableName="result" schemaName="quests">
+            <column name="title">Ты отклонил вызов. Поражение</column>
+            <column name="victory">false</column>
+        </insert>
+        <insert tableName="result" schemaName="quests">
+            <column name="title">Ты не пошел на переговоры. Поражение</column>
+            <column name="victory">false</column>
+        </insert>
+        <insert tableName="result" schemaName="quests">
+            <column name="title">Твою ложь разоблачили. Поражение</column>
+            <column name="victory">false</column>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

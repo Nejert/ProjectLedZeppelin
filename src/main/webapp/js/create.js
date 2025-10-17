@@ -127,7 +127,7 @@ function addResult(answerNode) {
 function gatherData() {
     let root = document.getElementById("root");
     let quest = new Quest();
-    quest.questName = root.querySelector("#quest-name").querySelector("#quest-name-input").value;
+    quest.title = root.querySelector("#quest-name").querySelector("#quest-name-input").value;
     quest.currentQuestion = getQuestion(root.querySelector("#question"));
     sendQuest(quest);
 }
@@ -146,7 +146,7 @@ function sendQuest(quest) {
 
 function getQuestion(questionNode) {
     let question = new Question();
-    question.text = questionNode.querySelector("#question-input").value;
+    question.title = questionNode.querySelector("#question-input").value;
     question.answers = getAnswers(questionNode.querySelector("ul").children);
     return question;
 }
@@ -155,14 +155,14 @@ function getAnswers(answerNodes) {
     let answers = [];
     for (const answerNode of answerNodes) {
         let answer = new Answer();
-        answer.text = answerNode.querySelector("#answer-input").value;
+        answer.title = answerNode.querySelector("#answer-input").value;
         let answerNodeULElement = answerNode.querySelector("ul").firstChild;
         if (answerNodeULElement.id === "question") {
-            answer.nextQuestion = getQuestion(answerNodeULElement);
-            answer.endResult = null;
+            answer.question = getQuestion(answerNodeULElement);
+            answer.result = null;
         } else if (answerNodeULElement.id === "result") {
-            answer.endResult = getResult(answerNodeULElement);
-            answer.nextQuestion = null;
+            answer.result = getResult(answerNodeULElement);
+            answer.question = null;
         }
         answers.push(answer);
     }
@@ -171,29 +171,29 @@ function getAnswers(answerNodes) {
 
 function getResult(resultNode) {
     let result = new Result();
-    result.text = resultNode.querySelector("#result-input").value;
+    result.title = resultNode.querySelector("#result-input").value;
     result.victory = resultNode.querySelector("#result-checkbox").checked;
     return result;
 }
 
 class Quest {
-    questName;
+    title;
     currentQuestion;
 }
 
 class Question {
-    text;
+    title;
     answers = [];
 }
 
 class Answer {
-    text;
-    nextQuestion;
-    endResult;
+    title;
+    question;
+    result;
 }
 
 class Result {
-    text;
+    title;
     victory;
 }
 

@@ -1,0 +1,35 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet author="ikazakov" id="createTable-question-answer">
+        <createTable tableName="question_answer" schemaName="quests">
+            <column name="question_id" type="int"/>
+            <column name="answer_id" type="int"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="ikazakov" id="createTable-answer-next-question">
+        <createTable tableName="answer_next_question" schemaName="quests">
+            <column name="answer_id" type="int"/>
+            <column name="question_id" type="int"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="ikazakov" id="createTable-answer-result">
+        <createTable tableName="answer_result" schemaName="quests">
+            <column name="answer_id" type="int"/>
+            <column name="result_id" type="int"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="ikazakov" id="createTable-quest-first-question">
+        <createTable tableName="quest_first_question" schemaName="quests">
+            <column name="quest_id" type="int"/>
+            <column name="question_id" type="int"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
